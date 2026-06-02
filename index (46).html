@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>407 Renovations · Price Book</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #F2EFE9; font-family: 'DM Sans', sans-serif; }
+    @keyframes floatup {
+      0%, 100% { opacity: 0.3; transform: translateY(0); }
+      50%       { opacity: 0.9; transform: translateY(-3px); }
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState } = React;
+
+const CARDS = [
+  {
+    id: "design",
+    color: "#8E6BBF",
+    title: "Interior Design",
+    tagline: "Consultation fee credited back if you book the job.",
+    items: [
+      { label: "On-site consultation (1–2 hrs)",         price: 200 },
+      { label: "Space planning & layout",                price: 350 },
+      { label: "Material & finish selection",            price: 250 },
+      { label: "Mood board & concept",                   price: 200 },
+      { label: "Full design package",                    price: 750 },
+      { label: "Project supervision (per visit)",        price: 150 },
+    ],
+  },
+    color: "#F5A623",
+    title: "Labor Rates",
+    tagline: "20 years · Orlando, FL · This is the price.",
+    items: [
+      { label: "Hourly rate",           price: 100 },
+      { label: "Half day (4 hrs)",      price: 400 },
+      { label: "Full day (8 hrs)",      price: 800 },
+      { label: "2-day job",             price: 1600 },
+      { label: "3-day job",             price: 2400 },
+      { label: "Week (5 days)",         price: 4000 },
+      { label: "Emergency / same-day",  price: 150, unit: "/ hr" },
+    ],
+  },
+  {
+    id: "bathroom",
+    color: "#E07A30",
+    title: "Bathroom",
+    min: 3500,
+    items: [
+      { label: "Standard bathroom — labor only", price: 3500 },
+      { label: "Shower walls tile (60 sf)",      price: 600  },
+      { label: "Floor tile (50 sf)",             price: 250  },
+      { label: "Demo & prep",                    price: 400  },
+      { label: "Drywall / cement board",         price: 400  },
+      { label: "Fixtures hookup",                price: 350  },
+      { label: "Grout & seal",                   price: 200  },
+      { label: "Niche / corner shelf",           price: 150  },
+    ],
+  },
+  {
+    id: "kitchen",
+    color: "#F5A623",
+    title: "Kitchen",
+    heroPrice: 15000,
+    included: [
+      "20 cabinets supply & install",
+      "LED lights inside cabinets",
+      "Countertop fabrication & set",
+      "Backsplash tile",
+      "Plumbing rough & finish",
+      "Electrical — outlets & hood",
+      "Flooring",
+      "Paint & trim",
+      "Demo & haul",
+    ],
+    addons: [
+      { label: "Extra cabinet (above 20)",    price: 350, unit: "/ each"    },
+      { label: "Cabinet with glass door",     price: 180, unit: "/ each"    },
+      { label: "Soft-close upgrade",          price: 95,  unit: "/ each"    },
+      { label: "Under-cabinet LED strip",     price: 120, unit: "/ section" },
+    ],
+    items: [],
+  },
+  {
+    id: "tile",
+    color: "#2E9E5B",
+    title: "Tile Labor",
+    items: [
+      { label: '18"×18" tile install',  price: 3.75,  unit: "/ sf" },
+      { label: '24"×24" tile install',  price: 3.25,  unit: "/ sf" },
+      { label: '24"×48" tile install',  price: 4.00,  unit: "/ sf" },
+      { label: '12"×24" tile install',  price: 3.50,  unit: "/ sf" },
+      { label: '12"×12" tile install',  price: 3.25,  unit: "/ sf" },
+      { label: "1,000 sf — 18×18",      price: 3750 },
+      { label: "1,000 sf — 24×24",      price: 3250 },
+      { label: "1,000 sf — 24×48",      price: 4000 },
+    ],
+  },
+  {
+    id: "flooring",
+    color: "#9B59B6",
+    title: "Flooring",
+    items: [
+      { label: "LVP install",        price: 2.50, unit: "/ sf" },
+      { label: "Hardwood install",   price: 4.50, unit: "/ sf" },
+      { label: "Laminate install",   price: 2.00, unit: "/ sf" },
+      { label: "Subfloor repair",    price: 600  },
+      { label: "Baseboards",         price: 3.50, unit: "/ lf" },
+      { label: "Demo old flooring",  price: 350  },
+    ],
+  },
+  {
+    id: "painting",
+    color: "#2980B9",
+    title: "Painting",
+    items: [
+      { label: "Interior room (avg)",                          price: 350  },
+      { label: "Full house interior (2,000 sf)",               price: 4500 },
+      { label: "Exterior — 1 floor, 1,500 sf (labor + mat.)", price: 2200 },
+      { label: "Cabinets repaint (kitchen)",                   price: 1200 },
+      { label: "Trim & doors",                                 price: 600  },
+      { label: "Ceiling only",                                 price: 250  },
+    ],
+  },
+  {
+    id: "drywall",
+    color: "#C0392B",
+    title: "Drywall",
+    items: [
+      { label: "Drywall install",                    price: 1.75, unit: "/ sf" },
+      { label: "Patch & texture (per hole)",         price: 120  },
+      { label: "Full room drywall",                  price: 900  },
+      { label: "Skim coat",                          price: 1.25, unit: "/ sf" },
+      { label: "Popcorn removal + texture + paint",  price: 6.00, unit: "/ sf" },
+    ],
+  },
+];
+
+function fmt(n, unit) {
+  if (unit) return "$" + Number(n).toFixed(2) + " " + unit;
+  return "$" + Math.round(n).toLocaleString();
+}
+
+/* ── ADD BUTTON ── */
+function AddBtn({ added, onAdd }) {
+  return (
+    <button onClick={e => { e.stopPropagation(); onAdd(); }} style={{
+      width: 28, height: 28, borderRadius: "50%", border: "1.5px solid",
+      borderColor: added ? "#2E9E5B" : "#DDD6CC",
+      background: added ? "#2E9E5B" : "transparent",
+      color: added ? "#fff" : "#9E9790",
+      fontSize: added ? 13 : 18, fontWeight: 300,
+      cursor: "pointer", display: "flex", alignItems: "center",
+      justifyContent: "center", flexShrink: 0,
+      transition: "all 0.15s", lineHeight: 1, fontFamily: "sans-serif",
+    }}>{added ? "✓" : "+"}</button>
+  );
+}
+
+/* ── KITCHEN HERO ── */
+function KitchenHero({ card, summary, setSummary }) {
+  const [discount, setDiscount] = useState(0);
+  const finalPrice = card.heroPrice - discount;
+  const pkgKey = "kitchen-full-package";
+  const pkgAdded = summary.some(s => s.id === pkgKey);
+
+  function togglePackage() {
+    if (pkgAdded) setSummary(s => s.filter(x => x.id !== pkgKey));
+    else setSummary(s => [...s, { id: pkgKey, label: "Kitchen — complete package", price: finalPrice, color: card.color }]);
+  }
+
+  const C = card.color;
+  return (
+    <div>
+      {/* Dark price hero */}
+      <div style={{
+        background: "linear-gradient(135deg,#1A1714 0%,#2A2420 100%)",
+        borderRadius: 16, padding: "24px 20px 20px",
+        marginBottom: 16, position: "relative", overflow: "hidden",
+      }}>
+        <div style={{
+          position: "absolute", top: -30, right: -10,
+          fontFamily: "'Montserrat',sans-serif", fontWeight: 100, fontSize: 160,
+          lineHeight: 1, color: "rgba(255,255,255,0.04)", userSelect: "none",
+        }}>K</div>
+        <div style={{
+          fontFamily: "'Montserrat',sans-serif", fontWeight: 200, fontSize: 10,
+          letterSpacing: "0.25em", textTransform: "uppercase",
+          color: "rgba(255,255,255,0.4)", marginBottom: 8,
+        }}>Standard Kitchen Renovation</div>
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 200, fontSize: 22, color: C, marginTop: 6 }}>$</span>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 700, fontSize: 64, lineHeight: 1, letterSpacing: "-0.03em", color: "#fff" }}>
+              {finalPrice.toLocaleString()}
+            </span>
+          </div>
+          <button onClick={togglePackage} style={{
+            marginTop: 8, padding: "8px 14px", borderRadius: 20, border: "1.5px solid",
+            borderColor: pkgAdded ? "#2E9E5B" : "rgba(255,255,255,0.2)",
+            background: pkgAdded ? "#2E9E5B" : "transparent",
+            color: pkgAdded ? "#fff" : "rgba(255,255,255,0.7)",
+            fontFamily: "'Montserrat',sans-serif", fontWeight: 600, fontSize: 11,
+            cursor: "pointer", transition: "all 0.15s", whiteSpace: "nowrap",
+          }}>{pkgAdded ? "✓ Added" : "+ Add to job"}</button>
+        </div>
+        {discount > 0 && (
+          <div style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, color: "rgba(255,255,255,0.3)", marginTop: 4, textDecoration: "line-through" }}>
+            ${card.heroPrice.toLocaleString()}
+          </div>
+        )}
+        <div style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 200, fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.22)", marginTop: 10 }}>
+          Complete package · labor + materials
+        </div>
+      </div>
+
+      {/* Discount */}
+      <div style={{ background: "#F9F5EF", borderRadius: 12, padding: "12px 14px", marginBottom: 16, border: "1px solid #EDE7DC" }}>
+        <div style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 600, fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "#9E9790", marginBottom: 10 }}>Apply Discount</div>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          {[0, 250, 500, 750, 1000].map(d => (
+            <button key={d} onClick={() => setDiscount(d)} style={{
+              padding: "6px 12px", borderRadius: 20, border: "1.5px solid",
+              borderColor: discount === d ? C : "#DDD6CC",
+              background: discount === d ? C : "transparent",
+              color: discount === d ? "#fff" : "#9E9790",
+              fontFamily: "'Montserrat',sans-serif", fontWeight: 600, fontSize: 11,
+              cursor: "pointer", transition: "all 0.15s",
+            }}>{d === 0 ? "None" : `-$${d.toLocaleString()}`}</button>
+          ))}
+        </div>
+        {discount > 0 && (
+          <div style={{ marginTop: 10, fontFamily: "'Montserrat',sans-serif", fontSize: 11, color: C, fontWeight: 600 }}>
+            Final: ${finalPrice.toLocaleString()} · saving ${discount.toLocaleString()}
+          </div>
+        )}
+      </div>
+
+      {/* Included */}
+      <div style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 600, fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "#B0A898", marginBottom: 8 }}>Everything included</div>
+      <div style={{ display: "flex", flexDirection: "column", marginBottom: 16 }}>
+        {card.included.map((item, i) => (
+          <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: i < card.included.length - 1 ? "1px solid #F0EBE3" : "none" }}>
+            <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "#5C5650" }}>{item}</span>
+            <span style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 600, fontSize: 10, letterSpacing: "0.08em", textTransform: "uppercase", color: C, background: C + "18", padding: "3px 8px", borderRadius: 20 }}>included</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Add-ons */}
+      <div style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 600, fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "#B0A898", marginBottom: 8 }}>Add-ons</div>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        {card.addons.map((item, i) => {
+          const key = "kitchen-addon-" + i;
+          const added = summary.some(s => s.id === key);
+          return (
+            <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: i < card.addons.length - 1 ? "1px solid #F0EBE3" : "none" }}>
+              <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "#5C5650", flex: 1, paddingRight: 10 }}>{item.label}</span>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 700, fontSize: 13, color: "#1A1714", marginRight: 10 }}>{fmt(item.price, item.unit)}</span>
+              <AddBtn added={added} onAdd={() => {
+                if (added) setSummary(s => s.filter(x => x.id !== key));
+                else setSummary(s => [...s, { id: key, label: item.label, price: item.price, color: C }]);
+              }} />
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ── FOLD CARD ── */
+function FoldCard({ card, summary, setSummary }) {
+  const [open, setOpen] = useState(false);
+  const first = card.title[0];
+  const rest  = card.title.slice(1).toUpperCase();
+
+  return (
+    <div style={{ width: "100%", position: "relative", marginBottom: 18 }}>
+
+      {/* Content underneath */}
+      <div style={{ background: "#fff", borderRadius: 20, padding: "20px 20px 24px", border: "1.5px solid #E8E2D9", minHeight: 180 }}>
+        {/* Header */}
+        <div style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 700, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: card.color, marginBottom: card.tagline ? 4 : 16, display: "flex", justifyContent: "space-between" }}>
+          <span>{card.title}</span>
+          {card.min && <span style={{ color: "#9E9790", fontWeight: 400, fontSize: 10 }}>starts {fmt(card.min)}+</span>}
+        </div>
+        {card.tagline && (
+          <div style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 200, fontSize: 11, letterSpacing: "0.1em", color: "#9E9790", marginBottom: 16, fontStyle: "italic" }}>{card.tagline}</div>
+        )}
+
+        {card.heroPrice
+          ? <KitchenHero card={card} summary={summary} setSummary={setSummary} />
+          : (
+            <div>
+              {card.items.map((item, i) => {
+                const key = card.id + "-" + i;
+                const added = summary.some(s => s.id === key);
+                return (
+                  <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "9px 0", borderBottom: i < card.items.length - 1 ? "1px solid #F0EBE3" : "none" }}>
+                    <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "#5C5650", flex: 1, paddingRight: 10 }}>{item.label}</span>
+                    <span style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 700, fontSize: 13, color: "#1A1714", whiteSpace: "nowrap", marginRight: 10 }}>{fmt(item.price, item.unit)}</span>
+                    <AddBtn added={added} onAdd={() => {
+                      if (added) setSummary(s => s.filter(x => x.id !== key));
+                      else setSummary(s => [...s, { id: key, label: item.label, price: item.price, color: card.color }]);
+                    }} />
+                  </div>
+                );
+              })}
+            </div>
+          )
+        }
+      </div>
+
+      {/* Flap */}
+      <div style={{ position: "absolute", inset: 0, perspective: "1400px", pointerEvents: open ? "none" : "auto", zIndex: 2 }}>
+        <div onClick={() => setOpen(true)} style={{
+          width: "100%", height: "100%", transformOrigin: "top center",
+          transformStyle: "preserve-3d",
+          transition: "transform 0.7s cubic-bezier(0.4,0,0.2,1)",
+          transform: open ? "rotateX(-168deg)" : "rotateX(0deg)",
+          position: "relative", cursor: "pointer",
+        }}>
+          {/* Front */}
+          <div style={{ position: "absolute", inset: 0, borderRadius: 20, background: "linear-gradient(150deg,#252220 0%,#1A1714 100%)", backfaceVisibility: "hidden", boxShadow: "0 6px 24px rgba(0,0,0,0.20)", overflow: "hidden" }}>
+            <div style={{ position: "absolute", top: -20, left: -8, fontFamily: "'Montserrat',sans-serif", fontWeight: 100, fontSize: 160, lineHeight: 1, color: "rgba(255,255,255,0.05)", userSelect: "none", pointerEvents: "none" }}>{first}</div>
+            <div style={{ position: "absolute", top: 18, left: 20, display: "flex", alignItems: "baseline" }}>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 100, fontSize: 46, lineHeight: 1, color: card.color, letterSpacing: "-0.03em" }}>{first}</span>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 100, fontSize: 11, letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginLeft: 5, paddingBottom: 4 }}>{rest}</span>
+            </div>
+            <div style={{ position: "absolute", bottom: 16, right: 18, fontFamily: "'Montserrat',sans-serif", fontWeight: 100, fontSize: 9, letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", gap: 5 }}>
+              <span style={{ animation: "floatup 2.2s ease-in-out infinite" }}>↑</span>
+              <span>open</span>
+            </div>
+          </div>
+          {/* Back */}
+          <div style={{ position: "absolute", inset: 0, borderRadius: 20, background: "#181614", backfaceVisibility: "hidden", transform: "rotateX(180deg)" }} />
+        </div>
+      </div>
+
+      {open && (
+        <button onClick={() => setOpen(false)} style={{
+          position: "absolute", top: 14, right: 14, width: 28, height: 28,
+          borderRadius: "50%", background: "rgba(0,0,0,0.06)", border: "none",
+          cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+          fontSize: 14, color: "#9E9790", zIndex: 10, fontFamily: "sans-serif",
+        }}>×</button>
+      )}
+    </div>
+  );
+}
+
+/* ── SUMMARY BAR ── */
+function Summary({ summary, setSummary }) {
+  if (summary.length === 0) return null;
+  const total = summary.reduce((s, i) => s + (i.price || 0), 0);
+  return (
+    <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 100, background: "#fff", borderTop: "1.5px solid #E8E2D9", boxShadow: "0 -8px 32px rgba(0,0,0,0.10)" }}>
+      <div style={{ maxWidth: 540, margin: "0 auto" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 20px 10px", borderBottom: "1px solid #F0EBE3" }}>
+          <div>
+            <div style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 600, fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "#9E9790" }}>Job Estimate</div>
+            <div style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 700, fontSize: 24, color: "#1A1714", letterSpacing: "-0.02em" }}>${total.toLocaleString()}</div>
+          </div>
+          <button onClick={() => setSummary([])} style={{ padding: "6px 14px", borderRadius: 20, border: "1.5px solid #E8E2D9", background: "transparent", fontFamily: "'Montserrat',sans-serif", fontWeight: 600, fontSize: 10, color: "#9E9790", cursor: "pointer" }}>Clear all</button>
+        </div>
+        <div style={{ maxHeight: 150, overflowY: "auto", padding: "8px 20px 16px" }}>
+          {summary.map((item, i) => (
+            <div key={item.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 0", borderBottom: i < summary.length - 1 ? "1px solid #F8F3EC" : "none" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, flex: 1 }}>
+                <div style={{ width: 8, height: 8, borderRadius: "50%", background: item.color, flexShrink: 0 }} />
+                <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "#5C5650", flex: 1 }}>{item.label}</span>
+              </div>
+              <span style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 700, fontSize: 12, color: "#1A1714", marginRight: 10 }}>{fmt(item.price)}</span>
+              <button onClick={() => setSummary(s => s.filter(x => x.id !== item.id))} style={{ background: "none", border: "none", cursor: "pointer", color: "#C0B8B0", fontSize: 16, padding: 0, lineHeight: 1 }}>×</button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── APP ── */
+function App() {
+  const [summary, setSummary] = useState([]);
+
+  return (
+    <div style={{ maxWidth: 540, margin: "0 auto", padding: summary.length > 0 ? "44px 18px 280px" : "44px 18px 80px", minHeight: "100vh", background: "#F2EFE9", transition: "padding-bottom 0.3s" }}>
+      <div style={{ marginBottom: 36 }}>
+        <div style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 200, fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", color: "#9E9790", marginBottom: 6 }}>407 Renovations · Price Book</div>
+        <div style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 700, fontSize: 30, letterSpacing: "-0.02em", color: "#1A1714", lineHeight: 1.1 }}>
+          Know Your <span style={{ color: "#F5A623" }}>Numbers</span>
+        </div>
+        <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "#9E9790", marginTop: 6, fontWeight: 300 }}>
+          Tap to open · tap + to build your job estimate
+        </div>
+      </div>
+
+      {CARDS.map(card => (
+        <FoldCard key={card.id} card={card} summary={summary} setSummary={setSummary} />
+      ))}
+
+      <Summary summary={summary} setSummary={setSummary} />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

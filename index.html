@@ -27,8 +27,8 @@ body{background:#F2EFE9;font-family:'DM Sans',sans-serif;min-height:100vh}
 .flap.open{transform:rotateX(-165deg);pointer-events:none}
 .flap-ghost{position:absolute;top:-18px;left:-6px;font-family:'Montserrat',sans-serif;font-weight:100;font-size:140px;line-height:1;color:rgba(255,255,255,.05);user-select:none;pointer-events:none}
 .flap-name{position:absolute;top:16px;left:18px;display:flex;align-items:baseline;gap:4px}
-.flap-first{font-family:'Montserrat',sans-serif;font-weight:100;font-size:40px;line-height:1;letter-spacing:-.03em}
-.flap-rest{font-family:'Montserrat',sans-serif;font-weight:100;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.38);padding-bottom:3px}
+.flap-first{font-family:'Montserrat',sans-serif;font-weight:400;font-size:40px;line-height:1;letter-spacing:-.03em}
+.flap-rest{font-family:'Montserrat',sans-serif;font-weight:300;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.65);padding-bottom:3px}
 .flap-hint{position:absolute;bottom:14px;right:16px;font-family:'Montserrat',sans-serif;font-weight:100;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.2);display:flex;align-items:center;gap:4px}
 .close-btn{position:absolute;top:12px;right:12px;width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.06);border:none;cursor:pointer;font-size:14px;color:#9E9790;display:flex;align-items:center;justify-content:center;z-index:10}
 .hero-block{background:#1A1714;border-radius:14px;padding:20px 18px 16px;margin-bottom:14px;position:relative;overflow:hidden}
@@ -119,14 +119,13 @@ const CARDS=[
       {label:"Under-cabinet LED strip",price:120,unit:"/ section"},
     ],items:[]},
   {id:"tile",color:"#2E9E5B",title:"Tile Labor",items:[
-    {label:'18"×18" tile install',price:3.75,unit:"/ sf"},
-    {label:'24"×24" tile install',price:3.25,unit:"/ sf"},
-    {label:'24"×48" tile install',price:4.00,unit:"/ sf"},
-    {label:'12"×24" tile install',price:3.50,unit:"/ sf"},
-    {label:'12"×12" tile install',price:3.25,unit:"/ sf"},
-    {label:"1,000 sf — 18×18",price:3750},
-    {label:"1,000 sf — 24×24",price:3250},
-    {label:"1,000 sf — 24×48",price:4000},
+    {label:'24"×24" tile install',price:3.00,unit:"/ sf"},
+    {label:'32"×32" tile install',price:3.50,unit:"/ sf"},
+    {label:'24"×48" tile install',price:4.25,unit:"/ sf"},
+    {label:"Backsplash install (full kitchen)",price:950},
+    {label:"1,000 sf — 24×24",price:3000},
+    {label:"1,000 sf — 32×32",price:3500},
+    {label:"1,000 sf — 24×48",price:4250},
   ]},
   {id:"flooring",color:"#9B59B6",title:"Flooring",items:[
     {label:"LVP install",price:2.50,unit:"/ sf"},
@@ -140,15 +139,29 @@ const CARDS=[
     {label:"Interior room (avg)",price:350},
     {label:"Full house interior (2,000 sf)",price:4500},
     {label:"Exterior — 1 floor, 1,500 sf (labor + mat.)",price:2200},
-    {label:"Cabinets repaint (kitchen)",price:1200},
+    {label:"Kitchen cabinets repaint (full set)",price:3500},
     {label:"Trim & doors",price:600},
-    {label:"Ceiling only",price:250},
+  ]},
+  {id:"quick",color:"#16A085",title:"Quick Services",tagline:"Small jobs, real prices. No exceptions.",items:[
+    {label:"Septic tank install — labor only (1 day)",price:1500},
+    {label:"Septic tank install — labor only (2 days)",price:2500},
+    {label:"Septic tank install — labor + unit + installation",price:3200},
+    {label:"TV wall mount install",price:220},
+    {label:"TV wall mount + power relocation",price:320},
+    {label:"Ceiling fan install",price:180},
+    {label:"Toilet install / replace",price:250},
+    {label:"Faucet install / replace",price:150},
+    {label:"Shower head / fixture replace",price:180},
+    {label:"Vanity install",price:350},
+    {label:"Mirror install",price:120},
+    {label:"Towel bar & accessories set",price:100},
+    {label:"Light fixture install",price:150},
+    {label:"Door install (interior)",price:250},
+    {label:"Door handle / lock replace",price:95},
   ]},
   {id:"drywall",color:"#C0392B",title:"Drywall",items:[
-    {label:"Drywall install",price:1.75,unit:"/ sf"},
     {label:"Patch & texture (per hole)",price:120},
     {label:"Full room drywall",price:900},
-    {label:"Skim coat",price:1.25,unit:"/ sf"},
     {label:"Popcorn removal + texture + paint",price:6.00,unit:"/ sf"},
   ]},
 ];

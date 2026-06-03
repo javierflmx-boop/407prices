@@ -4,69 +4,88 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 <title>407 Renovations · Price Book</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:#F2EFE9;font-family:'DM Sans',sans-serif;min-height:100vh}
-.wrap{max-width:520px;margin:0 auto;padding:36px 16px 100px}
-.eyebrow{font-family:'Montserrat',sans-serif;font-weight:200;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:#9E9790;margin-bottom:6px}
-.title{font-family:'Montserrat',sans-serif;font-weight:700;font-size:26px;letter-spacing:-.02em;color:#1A1714;line-height:1.1;margin-bottom:4px}
-.title span{color:#F5A623}
-.sub{font-size:12px;color:#9E9790;font-weight:300;margin-bottom:28px}
-.card-wrap{position:relative;margin-bottom:14px}
-.card-inner{background:#fff;border-radius:16px;border:1px solid #E8E2D9;padding:18px 18px 20px}
-.card-cat{font-family:'Montserrat',sans-serif;font-weight:700;font-size:10px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:4px}
-.card-tagline{font-family:'Montserrat',sans-serif;font-weight:200;font-size:11px;letter-spacing:.08em;color:#9E9790;font-style:italic;margin-bottom:14px}
-.line{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #F0EBE3;gap:8px}
-.line:last-child{border-bottom:none}
-.line-label{font-size:13px;color:#5C5650;flex:1}
-.line-price{font-family:'Montserrat',sans-serif;font-weight:700;font-size:13px;color:#1A1714;white-space:nowrap;margin-right:8px}
-.add-btn{width:26px;height:26px;border-radius:50%;border:1px solid #DDD6CC;background:transparent;color:#9E9790;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;line-height:1;padding:0}
-.add-btn.added{background:#2E9E5B;border-color:#2E9E5B;color:#fff;font-size:13px}
-.flap{position:absolute;inset:0;border-radius:16px;background:linear-gradient(150deg,#252220 0%,#1A1714 100%);cursor:pointer;overflow:hidden;transform-origin:top center;transition:transform .65s cubic-bezier(.4,0,.2,1)}
-.flap.open{transform:rotateX(-165deg);pointer-events:none}
-.flap-ghost{position:absolute;top:-18px;left:-6px;font-family:'Montserrat',sans-serif;font-weight:100;font-size:140px;line-height:1;color:rgba(255,255,255,.05);user-select:none;pointer-events:none}
-.flap-name{position:absolute;top:16px;left:18px;display:flex;align-items:baseline;gap:4px}
-.flap-first{font-family:'Montserrat',sans-serif;font-weight:400;font-size:40px;line-height:1;letter-spacing:-.03em}
-.flap-rest{font-family:'Montserrat',sans-serif;font-weight:300;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.65);padding-bottom:3px}
-.flap-hint{position:absolute;bottom:14px;right:16px;font-family:'Montserrat',sans-serif;font-weight:100;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.2);display:flex;align-items:center;gap:4px}
-.close-btn{position:absolute;top:12px;right:12px;width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.06);border:none;cursor:pointer;font-size:14px;color:#9E9790;display:flex;align-items:center;justify-content:center;z-index:10}
-.hero-block{background:#1A1714;border-radius:14px;padding:20px 18px 16px;margin-bottom:14px;position:relative;overflow:hidden}
-.hero-ghost{position:absolute;top:-24px;right:-8px;font-family:'Montserrat',sans-serif;font-weight:100;font-size:140px;line-height:1;color:rgba(255,255,255,.04);user-select:none}
-.hero-lbl{font-family:'Montserrat',sans-serif;font-weight:200;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:6px}
-.hero-row{display:flex;align-items:flex-start;justify-content:space-between}
-.hero-dollar{font-family:'Montserrat',sans-serif;font-weight:200;font-size:20px;color:#F5A623;margin-top:5px}
-.hero-num{font-family:'Montserrat',sans-serif;font-weight:700;font-size:56px;line-height:1;letter-spacing:-.03em;color:#fff}
-.hero-addbtn{margin-top:6px;padding:7px 13px;border-radius:20px;border:1px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.7);font-family:'Montserrat',sans-serif;font-weight:600;font-size:10px;cursor:pointer;transition:all .15s;white-space:nowrap}
-.hero-addbtn.added{background:#2E9E5B;border-color:#2E9E5B;color:#fff}
-.hero-sub{font-family:'Montserrat',sans-serif;font-weight:200;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-top:8px}
-.disc-wrap{background:#F9F5EF;border-radius:10px;padding:10px 12px;margin-bottom:14px;border:1px solid #EDE7DC}
-.disc-lbl{font-family:'Montserrat',sans-serif;font-weight:600;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#9E9790;margin-bottom:8px}
+html{background:#F7F6F3}
+body{background:#F7F6F3;font-family:'Inter',sans-serif;min-height:100vh}
+.wrap{max-width:560px;margin:0 auto;padding:52px 20px 120px}
+
+/* HEADER */
+.hdr-tag{font-family:'Inter',sans-serif;font-weight:400;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#B0A898;margin-bottom:16px}
+.hdr-title{font-family:'Playfair Display',serif;font-weight:700;font-size:48px;color:#0F0E0C;line-height:1;margin-bottom:8px}
+.hdr-title em{font-style:normal;color:#C8A96E}
+.hdr-sub{font-family:'Inter',sans-serif;font-weight:300;font-size:13px;color:#9E9790;letter-spacing:.02em;margin-bottom:48px}
+.divider{width:40px;height:1px;background:#C8A96E;margin-bottom:48px}
+
+/* CARDS */
+.card{background:#0F0E0C;border-radius:4px;margin-bottom:2px;overflow:hidden;transition:all .3s}
+.card-head{display:flex;justify-content:space-between;align-items:center;padding:22px 24px;cursor:pointer;user-select:none}
+.card-left{display:flex;align-items:baseline;gap:16px}
+.card-num{font-family:'Playfair Display',serif;font-weight:400;font-size:13px;color:#3A3733;min-width:20px}
+.card-name{font-family:'Inter',sans-serif;font-weight:500;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#F7F6F3}
+.card-right{display:flex;align-items:center;gap:12px}
+.card-min{font-family:'Inter',sans-serif;font-weight:400;font-size:12px;color:#6A6460;letter-spacing:.05em}
+.card-arrow{width:20px;height:20px;display:flex;align-items:center;justify-content:center;transition:transform .3s}
+.card-arrow svg{width:12px;height:12px;stroke:#5C5650;fill:none;stroke-width:1.5}
+.card.open .card-arrow{transform:rotate(180deg)}
+
+/* BODY */
+.card-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1)}
+.card.open .card-body{max-height:2000px}
+.card-body-inner{padding:0 24px 24px}
+.body-line{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #1E1C1A;gap:12px}
+.body-line:last-child{border-bottom:none}
+.body-label{font-family:'Inter',sans-serif;font-weight:300;font-size:13px;color:#8A8480;flex:1;letter-spacing:.01em}
+.body-price{font-family:'Inter',sans-serif;font-weight:500;font-size:13px;color:#F7F6F3;white-space:nowrap;margin-right:10px}
+.add-btn{width:24px;height:24px;border-radius:50%;border:1px solid #2E2C2A;background:transparent;color:#5C5650;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;line-height:1;padding:0;font-family:sans-serif}
+.add-btn.added{background:#C8A96E;border-color:#C8A96E;color:#0F0E0C;font-size:11px;font-weight:600}
+.card-tagline{font-family:'Inter',sans-serif;font-weight:400;font-size:12px;color:#8A8480;letter-spacing:.03em;font-style:italic;padding:0 24px 16px;border-bottom:1px solid #1E1C1A;margin-bottom:4px}
+
+/* KITCHEN HERO */
+.hero{background:#0F0E0C;padding:0 24px 20px}
+.hero-price-row{display:flex;align-items:flex-start;justify-content:space-between;padding:20px 0 16px;border-bottom:1px solid #1E1C1A;margin-bottom:16px}
+.hero-amount{display:flex;align-items:flex-start;gap:4px}
+.hero-currency{font-family:'Inter',sans-serif;font-weight:300;font-size:20px;color:#C8A96E;margin-top:8px}
+.hero-number{font-family:'Playfair Display',serif;font-weight:700;font-size:64px;line-height:1;color:#F7F6F3;letter-spacing:-.02em}
+.hero-pkg-btn{margin-top:10px;padding:8px 16px;border-radius:2px;border:1px solid #2E2C2A;background:transparent;color:#8A8480;font-family:'Inter',sans-serif;font-weight:500;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap}
+.hero-pkg-btn.added{background:#C8A96E;border-color:#C8A96E;color:#0F0E0C}
+.hero-caption{font-family:'Inter',sans-serif;font-weight:300;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#3A3733;margin-top:6px}
+
+/* DISCOUNT */
+.disc{background:#161412;border-radius:2px;padding:12px 14px;margin-bottom:16px}
+.disc-lbl{font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#5C5650;margin-bottom:8px}
 .disc-btns{display:flex;gap:6px;flex-wrap:wrap}
-.disc-btn{padding:5px 10px;border-radius:20px;border:1px solid #DDD6CC;background:transparent;font-family:'Montserrat',sans-serif;font-weight:600;font-size:10px;color:#9E9790;cursor:pointer;transition:all .15s}
-.sect-lbl{font-family:'Montserrat',sans-serif;font-weight:600;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#B0A898;margin:10px 0 6px}
-.incl-badge{font-family:'Montserrat',sans-serif;font-weight:600;font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:20px}
-.sum-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #E8E2D9;box-shadow:0 -4px 20px rgba(0,0,0,.08);z-index:100;display:none}
-.sum-inner{max-width:520px;margin:0 auto;padding:12px 16px 18px}
-.sum-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #F0EBE3}
-.sum-lbl{font-family:'Montserrat',sans-serif;font-weight:600;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#9E9790}
-.sum-total{font-family:'Montserrat',sans-serif;font-weight:700;font-size:22px;color:#1A1714;letter-spacing:-.02em}
-.sum-clear{padding:5px 12px;border-radius:20px;border:1px solid #E8E2D9;background:transparent;font-family:'Montserrat',sans-serif;font-weight:600;font-size:10px;color:#9E9790;cursor:pointer}
-.sum-items{max-height:120px;overflow-y:auto}
-.sum-line{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #F8F3EC}
+.disc-btn{padding:5px 12px;border-radius:2px;border:1px solid #2E2C2A;background:transparent;font-family:'Inter',sans-serif;font-weight:500;font-size:10px;color:#5C5650;cursor:pointer;transition:all .15s;letter-spacing:.05em}
+.disc-btn.active{background:#C8A96E;border-color:#C8A96E;color:#0F0E0C}
+.disc-result{margin-top:8px;font-family:'Inter',sans-serif;font-size:11px;color:#C8A96E;font-weight:500}
+
+/* INCLUDED / ADDONS */
+.sect-lbl{font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#3A3733;margin:16px 0 8px}
+.incl-badge{font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#C8A96E;background:#1E1C1A;padding:3px 8px;border-radius:2px}
+
+/* SUMMARY */
+.sum-bar{position:fixed;bottom:0;left:0;right:0;background:#0F0E0C;border-top:1px solid #1E1C1A;z-index:100;display:none}
+.sum-inner{max-width:560px;margin:0 auto;padding:14px 20px 20px}
+.sum-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #1E1C1A}
+.sum-lbl{font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#5C5650}
+.sum-total{font-family:'Playfair Display',serif;font-weight:700;font-size:26px;color:#F7F6F3;letter-spacing:-.01em}
+.sum-clear{padding:5px 12px;border-radius:2px;border:1px solid #2E2C2A;background:transparent;font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#5C5650;cursor:pointer}
+.sum-items{max-height:130px;overflow-y:auto}
+.sum-line{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #1A1814}
 .sum-line:last-child{border-bottom:none}
-.sum-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-right:7px}
-.sum-name{font-size:12px;color:#5C5650;flex:1}
-.sum-price{font-family:'Montserrat',sans-serif;font-weight:700;font-size:12px;color:#1A1714;margin-right:8px}
-.sum-rm{background:none;border:none;cursor:pointer;color:#C0B8B0;font-size:15px;padding:0;line-height:1}
-@keyframes floatup{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:.9;transform:translateY(-3px)}}
+.sum-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-right:8px}
+.sum-name{font-family:'Inter',sans-serif;font-size:12px;color:#8A8480;flex:1;font-weight:300}
+.sum-price{font-family:'Inter',sans-serif;font-weight:500;font-size:12px;color:#F7F6F3;margin-right:10px}
+.sum-rm{background:none;border:none;cursor:pointer;color:#3A3733;font-size:14px;padding:0;line-height:1}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="eyebrow">407 Renovations · Price Book</div>
-  <div class="title">Know Your <span>Numbers</span></div>
-  <div class="sub">Tap to open · tap + to build your job estimate</div>
+  <div class="hdr-tag">407 Renovations · Orlando, FL</div>
+  <div class="hdr-title">Price<br><em>Book.</em></div>
+  <div class="divider"></div>
+  <div class="hdr-sub">Tap any category to see rates · tap + to build your estimate</div>
   <div id="cards"></div>
 </div>
 <div class="sum-bar" id="sumBar">
@@ -91,7 +110,7 @@ const CARDS=[
     {label:"Full design package",price:750},
     {label:"Project supervision (per visit)",price:150},
   ]},
-  {id:"labor",color:"#F5A623",title:"Labor Rates",tagline:"20 years · Orlando, FL · This is the price.",items:[
+  {id:"labor",color:"#C8A96E",title:"Labor Rates",tagline:"20 years · Orlando, FL · This is the price.",items:[
     {label:"Hourly rate",price:100},
     {label:"Half day (4 hrs)",price:400},
     {label:"Full day (8 hrs)",price:800},
@@ -110,7 +129,7 @@ const CARDS=[
     {label:"Grout & seal",price:200},
     {label:"Niche / corner shelf",price:150},
   ]},
-  {id:"kitchen",color:"#F5A623",title:"Kitchen",heroPrice:15000,
+  {id:"kitchen",color:"#C8A96E",title:"Kitchen",heroPrice:15000,
     included:["20 cabinets supply & install","LED lights inside cabinets","Countertop fabrication & set","Backsplash tile","Plumbing rough & finish","Electrical — outlets & hood","Demo & haul"],
     addons:[
       {label:"Extra cabinet (above 20)",price:350,unit:"/ each"},
@@ -166,9 +185,7 @@ const CARDS=[
   ]},
 ];
 
-let summary=[];
-let openCards={};
-let discounts={};
+let summary=[],openCards={},discounts={};
 
 function fmt(n,unit){
   if(unit) return "$"+Number(n).toFixed(2)+" "+unit;
@@ -176,83 +193,77 @@ function fmt(n,unit){
 }
 function isAdded(id){return summary.some(s=>s.id===id)}
 function addItem(id,label,price,color){
-  if(isAdded(id)){summary=summary.filter(s=>s.id!==id)}
-  else{summary.push({id,label,price,color})}
+  if(isAdded(id)) summary=summary.filter(s=>s.id!==id);
+  else summary.push({id,label,price,color});
   render();
 }
 function clearAll(){summary=[];render();}
-function openCard(id){openCards[id]=true;render();}
-function closeCard(id){openCards[id]=false;render();}
+function toggleCard(id){openCards[id]=!openCards[id];render();}
 function setDiscount(cardId,d){discounts[cardId]=d;render();}
 
 function render(){
-  // cards
-  document.getElementById("cards").innerHTML=CARDS.map(card=>{
+  document.getElementById("cards").innerHTML=CARDS.map((card,idx)=>{
     const isOpen=!!openCards[card.id];
-    const first=card.title[0];
-    const rest=card.title.slice(1).toUpperCase();
     const disc=discounts[card.id]||0;
     const finalPrice=(card.heroPrice||0)-disc;
-    let content="";
+    let body="";
 
     if(card.heroPrice){
       const pk=card.id+"-pkg";
       const pa=isAdded(pk);
-      content=`
-        <div class="hero-block">
-          <div class="hero-ghost">K</div>
-          <div class="hero-lbl">Standard Kitchen Renovation</div>
-          <div class="hero-row">
-            <div style="display:flex;align-items:flex-start;gap:2px">
-              <span class="hero-dollar">$</span>
-              <span class="hero-num">${finalPrice.toLocaleString()}</span>
+      body=`<div class="hero">
+        <div class="hero-price-row">
+          <div>
+            <div class="hero-amount">
+              <span class="hero-currency">$</span>
+              <span class="hero-number">${finalPrice.toLocaleString()}</span>
             </div>
-            <button class="hero-addbtn ${pa?"added":""}" onclick="addItem('${pk}','Kitchen — complete package',${finalPrice},'${card.color}')">${pa?"✓ Added":"+ Add to job"}</button>
+            <div class="hero-caption">Complete package · labor + materials</div>
+            ${disc>0?`<div style="font-family:'Inter',sans-serif;font-size:11px;color:#3A3733;text-decoration:line-through;margin-top:4px">$${card.heroPrice.toLocaleString()}</div>`:""}
           </div>
-          <div class="hero-sub">Complete package · labor + materials</div>
+          <button class="hero-pkg-btn ${pa?"added":""}" onclick="addItem('${pk}','Kitchen — complete package',${finalPrice},'${card.color}')">${pa?"✓ Added":"+ Add"}</button>
         </div>
-        <div class="disc-wrap">
-          <div class="disc-lbl">Apply Discount</div>
+        <div class="disc">
+          <div class="disc-lbl">Discount</div>
           <div class="disc-btns">
-            ${[0,250,500,750,1000].map(d=>`<button class="disc-btn" style="${disc===d?"background:"+card.color+";border-color:"+card.color+";color:#fff":""}" onclick="setDiscount('${card.id}',${d})">${d===0?"None":"-$"+d.toLocaleString()}</button>`).join("")}
+            ${[0,250,500,750,1000].map(d=>`<button class="disc-btn ${disc===d?"active":""}" onclick="setDiscount('${card.id}',${d})">${d===0?"None":"-$"+d.toLocaleString()}</button>`).join("")}
           </div>
-          ${disc>0?`<div style="margin-top:8px;font-family:'Montserrat',sans-serif;font-size:11px;color:${card.color};font-weight:600;">Final: $${finalPrice.toLocaleString()} · saving $${disc.toLocaleString()}</div>`:""}
+          ${disc>0?`<div class="disc-result">Final: $${finalPrice.toLocaleString()} · saving $${disc.toLocaleString()}</div>`:""}
         </div>
-        <div class="sect-lbl">Everything included</div>
-        ${card.included.map(item=>`<div class="line"><span class="line-label">${item}</span><span class="incl-badge" style="color:${card.color};background:${card.color}22;">included</span></div>`).join("")}
-        <div class="sect-lbl" style="margin-top:12px">Add-ons</div>
+        <div class="sect-lbl">Included</div>
+        ${card.included.map(item=>`<div class="body-line"><span class="body-label">${item}</span><span class="incl-badge">included</span></div>`).join("")}
+        <div class="sect-lbl" style="margin-top:20px">Add-ons</div>
         ${card.addons.map((item,i)=>{
-          const k=card.id+"-addon-"+i;
-          const a=isAdded(k);
-          return`<div class="line"><span class="line-label">${item.label}</span><span class="line-price">${fmt(item.price,item.unit)}</span><button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${item.label}',${item.price},'${card.color}')">${a?"✓":"+"}</button></div>`;
-        }).join("")}`;
+          const k=card.id+"-addon-"+i;const a=isAdded(k);
+          return`<div class="body-line"><span class="body-label">${item.label}</span><span class="body-price">${fmt(item.price,item.unit)}</span><button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${item.label}',${item.price},'${card.color}')">${a?"✓":"+"}</button></div>`;
+        }).join("")}
+      </div>`;
     } else {
-      content=card.items.map((item,i)=>{
-        const k=card.id+"-"+i;
-        const a=isAdded(k);
-        return`<div class="line"><span class="line-label">${item.label}</span><span class="line-price">${fmt(item.price,item.unit)}</span><button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${item.label}',${item.price},'${card.color}')">${a?"✓":"+"}</button></div>`;
-      }).join("");
+      body=`<div class="card-body-inner">
+        ${card.items.map((item,i)=>{
+          const k=card.id+"-"+i;const a=isAdded(k);
+          return`<div class="body-line"><span class="body-label">${item.label}</span><span class="body-price">${fmt(item.price,item.unit)}</span><button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${item.label}',${item.price},'${card.color}')">${a?"✓":"+"}</button></div>`;
+        }).join("")}
+      </div>`;
     }
 
-    return`<div class="card-wrap">
-      <div class="card-inner">
-        <div class="card-cat" style="color:${card.color}">${card.title}${card.min?` <span style="color:#9E9790;font-weight:400;font-size:9px;">· starts ${fmt(card.min)}+</span>`:""}</div>
-        ${card.tagline?`<div class="card-tagline">${card.tagline}</div>`:""}
-        ${content}
-      </div>
-      <div class="flap ${isOpen?"open":""}" onclick="openCard('${card.id}')">
-        <div class="flap-ghost">${first}</div>
-        <div class="flap-name">
-          <span class="flap-first" style="color:${card.color}">${first}</span>
-          <span class="flap-rest">${rest}</span>
+    return`<div class="card ${isOpen?"open":""}">
+      <div class="card-head" onclick="toggleCard('${card.id}')">
+        <div class="card-left">
+          <span class="card-num">${String(idx+1).padStart(2,"0")}</span>
+          <span class="card-name">${card.title}</span>
         </div>
-        <div class="flap-hint"><span style="animation:floatup 2.2s ease-in-out infinite">↑</span><span>open</span></div>
+        <div class="card-right">
+          ${card.min?`<span class="card-min">from ${fmt(card.min)}</span>`:""}
+          ${card.heroPrice?`<span class="card-min">from ${fmt(card.heroPrice)}</span>`:""}
+          <span class="card-arrow"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></span>
+        </div>
       </div>
-      ${isOpen?`<button class="close-btn" onclick="event.stopPropagation();closeCard('${card.id}')">×</button>`:""}
+      ${card.tagline?`<div class="card-tagline">${card.tagline}</div>`:""}
+      <div class="card-body">${body}</div>
     </div>`;
   }).join("");
 
-  // summary
   const bar=document.getElementById("sumBar");
   if(summary.length===0){bar.style.display="none";return;}
   bar.style.display="block";
@@ -268,7 +279,6 @@ function render(){
       <button class="sum-rm" onclick="addItem('${item.id}','','0','')">×</button>
     </div>`).join("");
 }
-
 render();
 </script>
 </body>

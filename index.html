@@ -38,9 +38,10 @@ body{background:linear-gradient(180deg,#F5C01A 0%,#E8A020 40%,#7A4208 100%);font
 .body-line{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #1E1C1A;gap:12px}
 .body-line:last-child{border-bottom:none}
 .body-label{font-family:'Inter',sans-serif;font-weight:300;font-size:13px;color:#8A8480;flex:1;letter-spacing:.01em}
-.body-price{font-family:'Inter',sans-serif;font-weight:500;font-size:13px;color:#F7F6F3;white-space:nowrap;margin-right:10px;cursor:pointer;border-bottom:1px dashed transparent;transition:border-color .2s}
-.body-price:hover{border-bottom-color:#3A3733}
-.price-input{background:#1E1C1A;border:1px solid #C8A96E;border-radius:2px;padding:3px 8px;font-family:'Inter',sans-serif;font-weight:500;font-size:13px;color:#F7F6F3;width:90px;outline:none;text-align:right;margin-right:10px}
+.body-price{font-family:'Inter',sans-serif;font-weight:500;font-size:13px;color:#F7F6F3;white-space:nowrap;}
+.edit-btn{background:none;border:none;color:#3A3733;font-size:12px;cursor:pointer;padding:0 8px 0 4px;line-height:1;flex-shrink:0;}
+.edit-btn:hover{color:#C8A96E}
+.price-input{background:#1E1C1A;border:1px solid #C8A96E;border-radius:2px;padding:3px 8px;font-family:'Inter',sans-serif;font-weight:500;font-size:13px;color:#F7F6F3;width:80px;outline:none;text-align:right;}
 .add-btn{width:24px;height:24px;border-radius:50%;border:1px solid #2E2C2A;background:transparent;color:#5C5650;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;line-height:1;padding:0;font-family:sans-serif}
 .add-btn.added{background:#C8A96E;border-color:#C8A96E;color:#0F0E0C;font-size:11px;font-weight:600}
 .card-tagline{font-family:'Inter',sans-serif;font-weight:400;font-size:12px;color:#8A8480;letter-spacing:.03em;font-style:italic;padding:0 24px 16px;border-bottom:1px solid #1E1C1A;margin-bottom:4px}
@@ -274,31 +275,23 @@ function savePrice(key,val){
   priceOverrides[key]=val;
   try{localStorage.setItem("407prices",JSON.stringify(priceOverrides));}catch(e){}
 }
-function startLongPress(el,key,defaultPrice,unit){
-  el._lp=setTimeout(()=>{editPrice(el,key,defaultPrice,unit);},600);
-}
-function cancelLongPress(el){
-  clearTimeout(el._lp);
-}
-
-function editPrice(el,key,defaultPrice,unit){
-  if(el.querySelector&&el.querySelector("input")) return;
+function editPrice(key,defaultPrice,unit){
+  const priceEl=document.getElementById("price-"+key);
+  const inputEl=document.getElementById("input-"+key);
+  if(!priceEl||!inputEl) return;
   const cur=getPrice(key,defaultPrice);
-  const input=document.createElement("input");
-  input.type="number";
-  input.className="price-input";
-  input.value=cur;
-  input.step="any";
-  el.replaceWith(input);
-  input.focus();
-  input.select();
+  inputEl.value=cur;
+  priceEl.style.display="none";
+  inputEl.style.display="inline-block";
+  inputEl.focus();
+  inputEl.select();
   function commit(){
-    const newVal=parseFloat(input.value);
+    const newVal=parseFloat(inputEl.value);
     if(!isNaN(newVal)&&newVal>0) savePrice(key,newVal);
     render();
   }
-  input.addEventListener("blur",commit);
-  input.addEventListener("keydown",e=>{if(e.key==="Enter")commit();if(e.key==="Escape"){render();}});
+  inputEl.onblur=commit;
+  inputEl.onkeydown=e=>{if(e.key==="Enter"){inputEl.blur();}if(e.key==="Escape"){render();}};
 }
 
 function render(){
@@ -413,7 +406,7 @@ function render(){
         ${card.addons.map((item,i)=>{
           const k=card.id+"-addon-"+i;const a=isAdded(k);
           const p=getPrice(k,item.price);
-          return`<div class="body-line"><span class="body-label">${item.label}</span><span class="body-price" onmousedown="startLongPress(this,'${k}',${p},'${item.unit||''}')" onmouseup="cancelLongPress(this)" onmouseleave="cancelLongPress(this)" ontouchstart="startLongPress(this,'${k}',${p},'${item.unit||''}')" ontouchend="cancelLongPress(this)" ontouchmove="cancelLongPress(this)" title="Hold to edit">${fmt(p,item.unit)}</span><button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${item.label}',${p},'${card.color}')">${a?"✓":"+"}</button></div>`;
+          return`<div class="body-line"><span class="body-label">${item.label}</span><span id="price-${k}" class="body-price">${fmt(p,item.unit)}</span><input id="input-${k}" type="number" class="price-input" style="display:none" /><button class="edit-btn" onclick="editPrice('${k}',${item.price},'${item.unit||''}')">✎</button><button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${item.label}',${p},'${card.color}')">${a?"✓":"+"}</button></div>`;
         }).join("")}
         <div style="padding:16px 0 4px;border-top:1px solid #1E1C1A;margin-top:16px;font-family:'Inter',sans-serif;font-weight:300;font-size:11px;color:#3A3733;letter-spacing:.05em;">Labor only starting at $3,500 · simple bathroom 5 days or less</div>
       </div>`;
@@ -423,7 +416,7 @@ function render(){
           const k=card.id+"-"+i;
           const a=isAdded(k);
           const p=getPrice(k,item.price);
-          return`<div class="body-line"><span class="body-label">${item.label}</span><span class="body-price" onmousedown="startLongPress(this,'${k}',${p},'${item.unit||''}')" onmouseup="cancelLongPress(this)" onmouseleave="cancelLongPress(this)" ontouchstart="startLongPress(this,'${k}',${p},'${item.unit||''}')" ontouchend="cancelLongPress(this)" ontouchmove="cancelLongPress(this)" title="Hold to edit">${fmt(p,item.unit)}</span><button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${item.label}',${p},'${card.color}')">${a?"✓":"+"}</button></div>`;
+          return`<div class="body-line"><span class="body-label">${item.label}</span><span id="price-${k}" class="body-price">${fmt(p,item.unit)}</span><input id="input-${k}" type="number" class="price-input" style="display:none" /><button class="edit-btn" onclick="editPrice('${k}',${item.price},'${item.unit||''}')">✎</button><button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${item.label}',${p},'${card.color}')">${a?"✓":"+"}</button></div>`;
         }).join("")}
       </div>`;
     }

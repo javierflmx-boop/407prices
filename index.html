@@ -227,7 +227,6 @@ function toggleEdit(){
   if(!editMode){
     document.querySelectorAll(".price-field").forEach(inp=>{
       const key=inp.dataset.key;
-      const def=parseFloat(inp.dataset.def);
       const val=parseFloat(inp.value);
       if(!isNaN(val)&&val>0) setP(key,val);
     });
@@ -326,11 +325,14 @@ function render(){
             <div>
               <div style="display:flex;align-items:flex-start;gap:2px">
                 <span class="hero-dollar">$</span>
-                <span class="hero-num">${card.heroPrice.toLocaleString()}</span>
+                ${editMode
+                  ? `<input class="price-field" data-key="${card.id}-hero" data-def="${card.heroPrice}" value="${getP(card.id+'-hero',card.heroPrice)}" type="number" style="font-family:'Playfair Display',serif;font-size:40px;width:160px;background:#1A1814;border:1px solid #C8A96E;border-radius:4px;padding:4px 8px;color:#fff;outline:none"/>`
+                  : `<span class="hero-num">${getP(card.id+'-hero',card.heroPrice).toLocaleString()}</span>`
+                }
               </div>
               <div class="hero-sub">Labor + materials · firm price</div>
             </div>
-            <button class="hero-addbtn ${pa?"added":""}" onclick="addItem('${pk}','${card.title} — complete package',${card.heroPrice},'${card.color}')">${pa?"✓ Added":"+ Add"}</button>
+            <button class="hero-addbtn ${pa?"added":""}" onclick="addItem('${pk}','${card.title} — complete package',${getP(card.id+'-hero',card.heroPrice)},'${card.color}')">${pa?"✓ Added":"+ Add"}</button>
           </div>
         </div>
         <div class="sect">Included in package</div>

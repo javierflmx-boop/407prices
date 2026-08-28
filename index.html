@@ -274,8 +274,15 @@ function savePrice(key,val){
   priceOverrides[key]=val;
   try{localStorage.setItem("407prices",JSON.stringify(priceOverrides));}catch(e){}
 }
+function startLongPress(el,key,defaultPrice,unit){
+  el._lp=setTimeout(()=>{editPrice(el,key,defaultPrice,unit);},600);
+}
+function cancelLongPress(el){
+  clearTimeout(el._lp);
+}
+
 function editPrice(el,key,defaultPrice,unit){
-  if(el.querySelector("input")) return;
+  if(el.querySelector&&el.querySelector("input")) return;
   const cur=getPrice(key,defaultPrice);
   const input=document.createElement("input");
   input.type="number";
@@ -406,7 +413,7 @@ function render(){
         ${card.addons.map((item,i)=>{
           const k=card.id+"-addon-"+i;const a=isAdded(k);
           const p=getPrice(k,item.price);
-          return`<div class="body-line"><span class="body-label">${item.label}</span><span class="body-price" ondblclick="editPrice(this,'${k}',${item.price},'${item.unit||''}')" title="Double tap to edit">${fmt(p,item.unit)}</span><button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${item.label}',${p},'${card.color}')">${a?"✓":"+"}</button></div>`;
+          return`<div class="body-line"><span class="body-label">${item.label}</span><span class="body-price" onmousedown="startLongPress(this,'${k}',${p},'${item.unit||''}')" onmouseup="cancelLongPress(this)" onmouseleave="cancelLongPress(this)" ontouchstart="startLongPress(this,'${k}',${p},'${item.unit||''}')" ontouchend="cancelLongPress(this)" ontouchmove="cancelLongPress(this)" title="Hold to edit">${fmt(p,item.unit)}</span><button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${item.label}',${p},'${card.color}')">${a?"✓":"+"}</button></div>`;
         }).join("")}
         <div style="padding:16px 0 4px;border-top:1px solid #1E1C1A;margin-top:16px;font-family:'Inter',sans-serif;font-weight:300;font-size:11px;color:#3A3733;letter-spacing:.05em;">Labor only starting at $3,500 · simple bathroom 5 days or less</div>
       </div>`;
@@ -416,7 +423,7 @@ function render(){
           const k=card.id+"-"+i;
           const a=isAdded(k);
           const p=getPrice(k,item.price);
-          return`<div class="body-line"><span class="body-label">${item.label}</span><span class="body-price" ondblclick="editPrice(this,'${k}',${item.price},'${item.unit||''}')" title="Double tap to edit">${fmt(p,item.unit)}</span><button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${item.label}',${p},'${card.color}')">${a?"✓":"+"}</button></div>`;
+          return`<div class="body-line"><span class="body-label">${item.label}</span><span class="body-price" onmousedown="startLongPress(this,'${k}',${p},'${item.unit||''}')" onmouseup="cancelLongPress(this)" onmouseleave="cancelLongPress(this)" ontouchstart="startLongPress(this,'${k}',${p},'${item.unit||''}')" ontouchend="cancelLongPress(this)" ontouchmove="cancelLongPress(this)" title="Hold to edit">${fmt(p,item.unit)}</span><button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${item.label}',${p},'${card.color}')">${a?"✓":"+"}</button></div>`;
         }).join("")}
       </div>`;
     }

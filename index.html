@@ -38,7 +38,9 @@ body{background:linear-gradient(180deg,#F5C01A 0%,#E8A020 40%,#7A4208 100%);font
 .body-line{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #1E1C1A;gap:12px}
 .body-line:last-child{border-bottom:none}
 .body-label{font-family:'Inter',sans-serif;font-weight:300;font-size:13px;color:#8A8480;flex:1;letter-spacing:.01em}
-.body-price{font-family:'Inter',sans-serif;font-weight:500;font-size:13px;color:#F7F6F3;white-space:nowrap;margin-right:10px}
+.body-price{font-family:'Inter',sans-serif;font-weight:500;font-size:13px;color:#F7F6F3;white-space:nowrap;margin-right:10px;cursor:pointer;border-bottom:1px dashed transparent;transition:border-color .2s}
+.body-price:hover{border-bottom-color:#3A3733}
+.price-input{background:#1E1C1A;border:1px solid #C8A96E;border-radius:2px;padding:3px 8px;font-family:'Inter',sans-serif;font-weight:500;font-size:13px;color:#F7F6F3;width:90px;outline:none;text-align:right;margin-right:10px}
 .add-btn{width:24px;height:24px;border-radius:50%;border:1px solid #2E2C2A;background:transparent;color:#5C5650;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;line-height:1;padding:0;font-family:sans-serif}
 .add-btn.added{background:#C8A96E;border-color:#C8A96E;color:#0F0E0C;font-size:11px;font-weight:600}
 .card-tagline{font-family:'Inter',sans-serif;font-weight:400;font-size:12px;color:#8A8480;letter-spacing:.03em;font-style:italic;padding:0 24px 16px;border-bottom:1px solid #1E1C1A;margin-bottom:4px}
@@ -261,6 +263,37 @@ function calcFlip(){
   }
 }
 
+// Price overrides — persisted in localStorage
+let priceOverrides={};
+try{priceOverrides=JSON.parse(localStorage.getItem("407prices")||"{}");}catch(e){}
+
+function getPrice(key,defaultPrice){
+  return priceOverrides[key]!==undefined?priceOverrides[key]:defaultPrice;
+}
+function savePrice(key,val){
+  priceOverrides[key]=val;
+  try{localStorage.setItem("407prices",JSON.stringify(priceOverrides));}catch(e){}
+}
+function editPrice(el,key,defaultPrice,unit){
+  if(el.querySelector("input")) return;
+  const cur=getPrice(key,defaultPrice);
+  const input=document.createElement("input");
+  input.type="number";
+  input.className="price-input";
+  input.value=cur;
+  input.step="any";
+  el.replaceWith(input);
+  input.focus();
+  input.select();
+  function commit(){
+    const newVal=parseFloat(input.value);
+    if(!isNaN(newVal)&&newVal>0) savePrice(key,newVal);
+    render();
+  }
+  input.addEventListener("blur",commit);
+  input.addEventListener("keydown",e=>{if(e.key==="Enter")commit();if(e.key==="Escape"){render();}});
+}
+
 function render(){
   document.getElementById("cards").innerHTML=CARDS.map((card,idx)=>{
     const isOpen=!!openCards[card.id];
@@ -372,15 +405,18 @@ function render(){
         <div class="sect-lbl" style="margin-top:20px">Add-ons</div>
         ${card.addons.map((item,i)=>{
           const k=card.id+"-addon-"+i;const a=isAdded(k);
-          return`<div class="body-line"><span class="body-label">${item.label}</span><span class="body-price">${fmt(item.price,item.unit)}</span><button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${item.label}',${item.price},'${card.color}')">${a?"✓":"+"}</button></div>`;
+          const p=getPrice(k,item.price);
+          return`<div class="body-line"><span class="body-label">${item.label}</span><span class="body-price" ondblclick="editPrice(this,'${k}',${item.price},'${item.unit||''}')" title="Double tap to edit">${fmt(p,item.unit)}</span><button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${item.label}',${p},'${card.color}')">${a?"✓":"+"}</button></div>`;
         }).join("")}
         <div style="padding:16px 0 4px;border-top:1px solid #1E1C1A;margin-top:16px;font-family:'Inter',sans-serif;font-weight:300;font-size:11px;color:#3A3733;letter-spacing:.05em;">Labor only starting at $3,500 · simple bathroom 5 days or less</div>
       </div>`;
     } else {
       body=`<div class="card-body-inner">
         ${card.items.map((item,i)=>{
-          const k=card.id+"-"+i;const a=isAdded(k);
-          return`<div class="body-line"><span class="body-label">${item.label}</span><span class="body-price">${fmt(item.price,item.unit)}</span><button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${item.label}',${item.price},'${card.color}')">${a?"✓":"+"}</button></div>`;
+          const k=card.id+"-"+i;
+          const a=isAdded(k);
+          const p=getPrice(k,item.price);
+          return`<div class="body-line"><span class="body-label">${item.label}</span><span class="body-price" ondblclick="editPrice(this,'${k}',${item.price},'${item.unit||''}')" title="Double tap to edit">${fmt(p,item.unit)}</span><button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${item.label}',${p},'${card.color}')">${a?"✓":"+"}</button></div>`;
         }).join("")}
       </div>`;
     }

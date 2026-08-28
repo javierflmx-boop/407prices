@@ -219,17 +219,22 @@ function addItem(id,label,price,color){
   render();
 }
 function clearAll(){summary=[];render();}
-function toggleCard(id){if(!editMode){openCards[id]=!openCards[id];render();}}
+function toggleCard(id){openCards[id]=!openCards[id];render();}
 function setDiscount(cardId,d){discounts[cardId]=d;render();}
 function toggleEdit(){
   editMode=!editMode;
-  // save all input values when turning off edit mode
-  if(!editMode){
+  if(editMode){
+    // open all cards so everything is visible to edit
+    CARDS.forEach(c=>openCards[c.id]=true);
+  } else {
+    // save all input values
     document.querySelectorAll(".price-field").forEach(inp=>{
       const key=inp.dataset.key;
       const val=parseFloat(inp.value);
       if(!isNaN(val)&&val>0) setP(key,val);
     });
+    // close all cards
+    CARDS.forEach(c=>openCards[c.id]=false);
   }
   render();
 }
@@ -359,7 +364,7 @@ function render(){
     return`<div class="card ${isOpen?"open":""}">
       <div class="card-head" onclick="toggleCard('${card.id}')">
         <div class="card-left"><span class="card-num">${String(idx+1).padStart(2,"0")}</span><span class="card-name">${card.title}</span></div>
-        <div class="card-right">${card.heroPrice?`<span class="card-min">from $${card.heroPrice.toLocaleString()}</span>`:""}<span class="card-arrow">▾</span></div>
+        <div class="card-right">${card.heroPrice?`<span class="card-min">starting at $${getP(card.id+'-hero',card.heroPrice).toLocaleString()}</span>`:""}<span class="card-arrow">▾</span></div>
       </div>
       <div class="card-body">${body}</div>
     </div>`;

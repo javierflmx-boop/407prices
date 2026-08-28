@@ -9,88 +9,85 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{background:#F5C01A}
 body{background:linear-gradient(180deg,#F5C01A 0%,#E8A020 40%,#7A4208 100%);font-family:'Inter',sans-serif;min-height:100vh;background-attachment:fixed}
-.wrap{max-width:560px;margin:0 auto;padding:20px 16px 120px}
-.hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-.hdr-title{font-family:'Inter',sans-serif;font-weight:300;font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,0.85)}
-.edit-toggle{padding:7px 16px;border-radius:20px;border:1px solid rgba(255,255,255,0.4);background:transparent;font-family:'Inter',sans-serif;font-weight:500;font-size:11px;letter-spacing:.08em;color:#fff;cursor:pointer;transition:all .2s}
-.edit-toggle.active{background:#fff;color:#0F0E0C}
-.card{background:#0F0E0C;border-radius:4px;margin-bottom:2px;overflow:hidden}
-.card-head{display:flex;justify-content:space-between;align-items:center;padding:20px 20px;cursor:pointer;user-select:none}
-.card-left{display:flex;align-items:baseline;gap:14px}
-.card-num{font-family:'Playfair Display',serif;font-weight:400;font-size:12px;color:#3A3733;min-width:18px}
-.card-name{font-family:'Inter',sans-serif;font-weight:500;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#F7F6F3}
-.card-right{display:flex;align-items:center;gap:10px}
-.card-min{font-family:'Inter',sans-serif;font-weight:400;font-size:11px;color:#6A6460}
-.card-arrow{font-size:10px;color:#5C5650;transition:transform .3s;display:inline-block}
+.wrap{max-width:560px;margin:0 auto;padding:24px 20px 120px}
+.hdr-wrap{margin-bottom:20px}
+
+/* HEADER */
+.hdr-tag{font-family:'Inter',sans-serif;font-weight:400;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:10px}
+.hdr-title{font-family:'Playfair Display',serif;font-weight:700;font-size:28px;color:#fff;line-height:1;margin-bottom:0}
+.hdr-title em{font-style:normal;color:#1A1714}
+.hdr-sub{display:none}
+.divider{display:none}
+
+/* CARDS */
+.card{background:#0F0E0C;border-radius:4px;margin-bottom:2px;overflow:hidden;transition:all .3s}
+.card-head{display:flex;justify-content:space-between;align-items:center;padding:22px 24px;cursor:pointer;user-select:none}
+.card-left{display:flex;align-items:baseline;gap:16px}
+.card-num{font-family:'Playfair Display',serif;font-weight:400;font-size:13px;color:#3A3733;min-width:20px}
+.card-name{font-family:'Inter',sans-serif;font-weight:500;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:#F7F6F3}
+.card-right{display:flex;align-items:center;gap:12px}
+.card-min{font-family:'Inter',sans-serif;font-weight:400;font-size:12px;color:#6A6460;letter-spacing:.05em}
+.card-arrow{width:20px;height:20px;display:flex;align-items:center;justify-content:center;transition:transform .3s}
+.card-arrow svg{width:12px;height:12px;stroke:#5C5650;fill:none;stroke-width:1.5}
 .card.open .card-arrow{transform:rotate(180deg)}
+
+/* BODY */
 .card-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1)}
-.card.open .card-body{max-height:3000px}
-.card-inner{padding:0 20px 20px}
-.line{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #1E1C1A;gap:8px}
-.line:last-child{border-bottom:none}
-.line-label{font-family:'Inter',sans-serif;font-weight:300;font-size:13px;color:#8A8480;flex:1}
-.line-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.line-price{font-family:'Inter',sans-serif;font-weight:500;font-size:13px;color:#F7F6F3;white-space:nowrap}
-.price-field{background:#1A1814;border:1px solid #C8A96E;border-radius:4px;padding:5px 8px;font-family:'Inter',sans-serif;font-weight:500;font-size:13px;color:#F7F6F3;width:85px;outline:none;text-align:right}
-.add-btn{width:24px;height:24px;border-radius:50%;border:1px solid #2E2C2A;background:transparent;color:#5C5650;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;line-height:1;padding:0}
+.card.open .card-body{max-height:2000px}
+.card-body-inner{padding:0 24px 24px}
+.body-line{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #1E1C1A;gap:12px}
+.body-line:last-child{border-bottom:none}
+.body-label{font-family:'Inter',sans-serif;font-weight:300;font-size:13px;color:#8A8480;flex:1;letter-spacing:.01em}
+.body-price{font-family:'Inter',sans-serif;font-weight:500;font-size:13px;color:#F7F6F3;white-space:nowrap;}
+.edit-btn{background:none;border:none;color:#3A3733;font-size:12px;cursor:pointer;padding:0 8px 0 4px;line-height:1;flex-shrink:0;}
+.edit-btn:hover{color:#C8A96E}
+.price-input{background:#1E1C1A;border:1px solid #C8A96E;border-radius:2px;padding:3px 8px;font-family:'Inter',sans-serif;font-weight:500;font-size:13px;color:#F7F6F3;width:80px;outline:none;text-align:right;}
+.add-btn{width:24px;height:24px;border-radius:50%;border:1px solid #2E2C2A;background:transparent;color:#5C5650;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;line-height:1;padding:0;font-family:sans-serif}
 .add-btn.added{background:#C8A96E;border-color:#C8A96E;color:#0F0E0C;font-size:11px;font-weight:600}
-.hero-block{background:#1A1814;border-radius:10px;padding:18px;margin-bottom:14px;position:relative;overflow:hidden}
-.hero-ghost{position:absolute;top:-20px;right:-6px;font-family:'Playfair Display',serif;font-weight:700;font-size:120px;line-height:1;color:rgba(255,255,255,0.04);user-select:none}
-.hero-lbl{font-family:'Inter',sans-serif;font-weight:200;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:6px}
-.hero-row{display:flex;align-items:flex-start;justify-content:space-between}
-.hero-dollar{font-family:'Playfair Display',serif;font-size:18px;color:#C8A96E;margin-top:5px}
-.hero-num{font-family:'Playfair Display',serif;font-weight:700;font-size:52px;line-height:1;letter-spacing:-.02em;color:#fff}
-.hero-sub{font-family:'Inter',sans-serif;font-weight:200;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-top:8px}
-.hero-addbtn{margin-top:6px;padding:7px 12px;border-radius:2px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.7);font-family:'Inter',sans-serif;font-weight:500;font-size:10px;cursor:pointer;transition:all .2s;white-space:nowrap}
-.hero-addbtn.added{background:#C8A96E;border-color:#C8A96E;color:#0F0E0C}
-.disc-wrap{background:#161412;border-radius:6px;padding:10px 12px;margin-bottom:12px}
+.card-tagline{font-family:'Inter',sans-serif;font-weight:400;font-size:12px;color:#8A8480;letter-spacing:.03em;font-style:italic;padding:0 24px 16px;border-bottom:1px solid #1E1C1A;margin-bottom:4px}
+
+/* KITCHEN HERO */
+.hero{background:#0F0E0C;padding:0 24px 20px}
+.hero-price-row{display:flex;align-items:flex-start;justify-content:space-between;padding:20px 0 16px;border-bottom:1px solid #1E1C1A;margin-bottom:16px}
+.hero-amount{display:flex;align-items:flex-start;gap:4px}
+.hero-currency{font-family:'Inter',sans-serif;font-weight:300;font-size:20px;color:#C8A96E;margin-top:8px}
+.hero-number{font-family:'Playfair Display',serif;font-weight:700;font-size:64px;line-height:1;color:#F7F6F3;letter-spacing:-.02em}
+.hero-pkg-btn{margin-top:10px;padding:8px 16px;border-radius:2px;border:1px solid #2E2C2A;background:transparent;color:#8A8480;font-family:'Inter',sans-serif;font-weight:500;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap}
+.hero-pkg-btn.added{background:#C8A96E;border-color:#C8A96E;color:#0F0E0C}
+.hero-caption{font-family:'Inter',sans-serif;font-weight:300;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#3A3733;margin-top:6px}
+
+/* DISCOUNT */
+.disc{background:#161412;border-radius:2px;padding:12px 14px;margin-bottom:16px}
 .disc-lbl{font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#5C5650;margin-bottom:8px}
 .disc-btns{display:flex;gap:6px;flex-wrap:wrap}
-.disc-btn{padding:5px 10px;border-radius:20px;border:1px solid #2E2C2A;background:transparent;font-family:'Inter',sans-serif;font-weight:500;font-size:10px;color:#5C5650;cursor:pointer;transition:all .15s}
-.disc-btn.on{background:#C8A96E;border-color:#C8A96E;color:#0F0E0C}
+.disc-btn{padding:5px 12px;border-radius:2px;border:1px solid #2E2C2A;background:transparent;font-family:'Inter',sans-serif;font-weight:500;font-size:10px;color:#5C5650;cursor:pointer;transition:all .15s;letter-spacing:.05em}
+.disc-btn.active{background:#C8A96E;border-color:#C8A96E;color:#0F0E0C}
 .disc-result{margin-top:8px;font-family:'Inter',sans-serif;font-size:11px;color:#C8A96E;font-weight:500}
-.sect{font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#3A3733;margin:12px 0 6px}
-.incl-badge{font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#C8A96E;background:#1E1C1A;padding:2px 7px;border-radius:2px;white-space:nowrap}
-.flip-input{background:#161412;border:1px solid #2E2C2A;border-radius:2px;padding:10px 14px;font-family:'Playfair Display',serif;font-size:28px;color:#F7F6F3;width:100%;outline:none;margin-bottom:14px}
-.flip-check-row{display:flex;align-items:center;justify-content:space-between;background:#161412;padding:12px 14px;border-radius:2px;margin-bottom:2px;cursor:pointer}
-.flip-check-left{display:flex;align-items:center;gap:10px}
-.flip-check-lbl{font-family:'Inter',sans-serif;font-size:13px;color:#8A8480}
-.flip-check-price{font-family:'Inter',sans-serif;font-weight:500;font-size:13px;color:#F7F6F3}
-.flip-result{background:#C8A96E;border-radius:4px;padding:18px;margin-top:12px;display:none}
-.flip-result-lbl{font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(0,0,0,0.5);margin-bottom:4px}
-.flip-result-total{font-family:'Playfair Display',serif;font-weight:700;font-size:44px;color:#0F0E0C;line-height:1;letter-spacing:-.02em}
-.flip-result-breakdown{font-family:'Inter',sans-serif;font-weight:300;font-size:11px;color:rgba(0,0,0,0.5);margin-top:6px}
-.flip-base-row{padding:12px 0;border-bottom:1px solid #1E1C1A;margin-bottom:12px;display:none}
-.flip-base-lbl{font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#5C5650;margin-bottom:4px}
-.flip-base-num{font-family:'Playfair Display',serif;font-weight:700;font-size:30px;color:#F7F6F3}
-.flip-base-70{font-family:'Inter',sans-serif;font-size:10px;color:#3A3733;margin-top:4px}
-.pct-row{margin-bottom:14px}
-.pct-lbl-row{display:flex;justify-content:space-between;margin-bottom:6px}
-.pct-lbl{font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#5C5650}
-.pct-val{font-family:'Inter',sans-serif;font-weight:600;font-size:12px;color:#C8A96E}
-.pct-marks{display:flex;justify-content:space-between;margin-top:4px}
-.pct-mark{font-family:'Inter',sans-serif;font-size:9px;color:#3A3733}
-.pct-mark.mid{color:#C8A96E}
-.sum-bar{position:fixed;bottom:0;left:0;right:0;background:#0F0E0C;border-top:1px solid #1E1C1A;box-shadow:0 -4px 20px rgba(0,0,0,0.3);z-index:100;display:none}
-.sum-inner{max-width:560px;margin:0 auto;padding:12px 16px 18px}
-.sum-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #1E1C1A}
+
+/* INCLUDED / ADDONS */
+.sect-lbl{font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#3A3733;margin:16px 0 8px}
+.incl-badge{font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#C8A96E;background:#1E1C1A;padding:3px 8px;border-radius:2px}
+
+/* SUMMARY */
+.sum-bar{position:fixed;bottom:0;left:0;right:0;background:#0F0E0C;border-top:1px solid #1E1C1A;z-index:100;display:none}
+.sum-inner{max-width:560px;margin:0 auto;padding:14px 20px 20px}
+.sum-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #1E1C1A}
 .sum-lbl{font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#5C5650}
-.sum-total{font-family:'Playfair Display',serif;font-weight:700;font-size:24px;color:#F7F6F3}
-.sum-clear{padding:5px 12px;border-radius:20px;border:1px solid #2E2C2A;background:transparent;font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#5C5650;cursor:pointer}
-.sum-items{max-height:120px;overflow-y:auto}
-.sum-line{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #1A1814}
+.sum-total{font-family:'Playfair Display',serif;font-weight:700;font-size:26px;color:#F7F6F3;letter-spacing:-.01em}
+.sum-clear{padding:5px 12px;border-radius:2px;border:1px solid #2E2C2A;background:transparent;font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#5C5650;cursor:pointer}
+.sum-items{max-height:130px;overflow-y:auto}
+.sum-line{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #1A1814}
 .sum-line:last-child{border-bottom:none}
-.sum-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-right:7px}
-.sum-name{font-size:12px;color:#8A8480;flex:1;font-family:'Inter',sans-serif}
-.sum-price{font-family:'Inter',sans-serif;font-weight:500;font-size:12px;color:#F7F6F3;margin-right:8px}
+.sum-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-right:8px}
+.sum-name{font-family:'Inter',sans-serif;font-size:12px;color:#8A8480;flex:1;font-weight:300}
+.sum-price{font-family:'Inter',sans-serif;font-weight:500;font-size:12px;color:#F7F6F3;margin-right:10px}
 .sum-rm{background:none;border:none;cursor:pointer;color:#3A3733;font-size:14px;padding:0;line-height:1}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="hdr">
-    <div class="hdr-title">407 Renovations — Prices</div>
-    <button class="edit-toggle" id="editBtn" onclick="toggleEdit()">Edit Prices</button>
+  <div style="margin-bottom:20px">
+    <div style="font-family:'Inter',sans-serif;font-weight:300;font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,0.8);">407 Renovations &mdash; Prices</div>
   </div>
   <div id="cards"></div>
 </div>
@@ -128,7 +125,18 @@ const CARDS=[
     {label:"Emergency / same-day",price:150,unit:"/ hr"},
   ]},
   {id:"bathroom",color:"#E07A30",title:"Bathroom",heroPrice:12000,
-    included:["Custom design & layout","Demo & haul","Shower walls — 24\"×48\" tile","Floor tile","Drywall / cement board","Toilet supply & install","Vanity supply & install","Plumbing rough & finish","LED lights","Grout, seal & cleanup"],
+    included:[
+      "Custom design & layout",
+      "Demo & haul",
+      "Shower walls — 24\"×48\" tile",
+      "Floor tile",
+      "Drywall / cement board",
+      "Toilet supply & install",
+      "Vanity supply & install",
+      "Plumbing rough & finish",
+      "LED lights",
+      "Grout, seal & cleanup",
+    ],
     addons:[
       {label:"Second floor surcharge",price:2000},
       {label:"Custom vanity supply & install",price:1500},
@@ -139,9 +147,10 @@ const CARDS=[
       {label:"Freestanding tub install",price:1200},
       {label:"Heated floor (electric mat)",price:900},
       {label:"Double vanity upgrade",price:600},
-      {label:"Premium tile upgrade 24×48",price:3.00,unit:"– $10.00 / sf"},
-    ],items:[]},
-  {id:"kitchen",color:"#F5A623",title:"Kitchen",heroPrice:15000,
+      {label:"Premium tile upgrade 24×48 (materials)",price:3.00,unit:"– $10.00 / sf"},
+    ],
+    items:[]},
+  {id:"kitchen",color:"#C8A96E",title:"Kitchen",heroPrice:15000,
     included:["20 cabinets supply & install","LED lights inside cabinets","Countertop fabrication & set","Backsplash tile","Plumbing rough & finish","Electrical — outlets & hood","Demo & haul"],
     addons:[
       {label:"Extra cabinet (above 20)",price:350,unit:"/ each"},
@@ -175,7 +184,6 @@ const CARDS=[
   ]},
   {id:"quick",color:"#16A085",title:"Quick Services",items:[
     {label:"RV spot — septic, 50 amp power, water & connections",price:7500},
-    {label:"Septic tank install — labor only (1 day)",price:1500},
     {label:"Septic tank install — labor only (2 days)",price:2500},
     {label:"Septic tank install — labor + unit + installation",price:3200},
     {label:"TV wall mount install",price:220},
@@ -198,76 +206,95 @@ const CARDS=[
   ]},
 ];
 
-let summary=[],openCards={},discounts={},editMode=false;
-
-// Load saved prices
-let saved={};
-try{saved=JSON.parse(localStorage.getItem("407pb")||"{}");}catch(e){}
-
-function getP(key,def){return saved[key]!==undefined?saved[key]:def;}
-function setP(key,val){saved[key]=val;try{localStorage.setItem("407pb",JSON.stringify(saved));}catch(e){}}
+let summary=[],openCards={},discounts={};
 
 function fmt(n,unit){
   if(unit) return "$"+Number(n).toFixed(2)+" "+unit;
   return "$"+Math.round(n).toLocaleString();
 }
-function isAdded(id){return summary.some(s=>s.id===id);}
+function isAdded(id){return summary.some(s=>s.id===id)}
 function addItem(id,label,price,color){
-  if(editMode) return;
   if(isAdded(id)) summary=summary.filter(s=>s.id!==id);
   else summary.push({id,label,price,color});
   render();
 }
 function clearAll(){summary=[];render();}
-function toggleCard(id){if(!editMode){openCards[id]=!openCards[id];render();}}
+function toggleCard(id){openCards[id]=!openCards[id];render();}
 function setDiscount(cardId,d){discounts[cardId]=d;render();}
-function toggleEdit(){
-  editMode=!editMode;
-  // save all input values when turning off edit mode
-  if(!editMode){
-    document.querySelectorAll(".price-field").forEach(inp=>{
-      const key=inp.dataset.key;
-      const def=parseFloat(inp.dataset.def);
-      const val=parseFloat(inp.value);
-      if(!isNaN(val)&&val>0) setP(key,val);
-    });
-  }
-  render();
-}
 
 function calcFlip(){
-  const arv=parseFloat(document.getElementById("flip-arv")?.value)||0;
+  const arv=parseFloat(document.getElementById("flip-arv").value)||0;
   const pctEl=document.getElementById("flip-pct");
-  const pct=pctEl?parseInt(pctEl.value):25;
+  const pct=pctEl?parseInt(pctEl.value):20;
   const pctLbl=document.getElementById("flip-pct-lbl");
   if(pctLbl) pctLbl.textContent=pct+"%";
   const kitchen=document.getElementById("flip-kitchen")?.checked;
-  const bath=document.getElementById("flip-bath")?.checked;
   const split=document.getElementById("flip-split")?.checked;
-  const gut=document.getElementById("flip-gut")?.checked;
-  const gutSf=parseFloat(document.getElementById("flip-gut-sf")?.value)||0;
-  const gutPrice=gut&&gutSf>0?Math.round(gutSf*110):0;
-  const gutRes=document.getElementById("flip-gut-result");
-  if(gutRes){if(gut&&gutSf>0){gutRes.style.display="block";gutRes.textContent=gutSf.toLocaleString()+" sf × $110 = $"+gutPrice.toLocaleString();}else gutRes.style.display="none";}
+  const bath=document.getElementById("flip-bath")?.checked;
   const baseRow=document.getElementById("flip-base-row");
   const result=document.getElementById("flip-result");
   if(arv===0){if(baseRow)baseRow.style.display="none";if(result)result.style.display="none";return;}
   const base=Math.round(arv*(pct/100));
   let addons=[];
+  const gut=document.getElementById("flip-gut")?.checked;
+  const gutSf=parseFloat(document.getElementById("flip-gut-sf")?.value)||0;
+  const gutPrice=gut&&gutSf>0?Math.round(gutSf*110):0;
+  const gutResult=document.getElementById("flip-gut-result");
+  if(gutResult){
+    if(gut&&gutSf>0){gutResult.style.display="block";gutResult.textContent=gutSf.toLocaleString()+" sf × $110 = $"+gutPrice.toLocaleString();}
+    else gutResult.style.display="none";
+  }
   if(kitchen) addons.push({label:"Kitchen flip",price:15000});
   if(bath)    addons.push({label:"Bathroom flip",price:12000});
   if(split)   addons.push({label:"Unit split",price:9000});
   if(gut&&gutSf>0) addons.push({label:"Full gut "+gutSf.toLocaleString()+" sf",price:gutPrice});
   const total=base+addons.reduce((s,a)=>s+a.price,0);
   const maxBuy=Math.round(arv*0.70)-total;
-  if(baseRow){baseRow.style.display="block";document.getElementById("flip-base-num").textContent="$"+base.toLocaleString();const r70=document.getElementById("flip-rule70");if(r70)r70.textContent="70% rule · investor max purchase: $"+maxBuy.toLocaleString();}
-  if(result){result.style.display="block";document.getElementById("flip-total").textContent="$"+total.toLocaleString();const parts=["Base $"+base.toLocaleString(),...addons.map(a=>a.label+" +$"+a.price.toLocaleString())];document.getElementById("flip-breakdown").textContent=parts.join(" · ");}
+  if(baseRow){
+    baseRow.style.display="block";
+    document.getElementById("flip-base").textContent="$"+base.toLocaleString();
+    const r70=document.getElementById("flip-rule70");
+    if(r70) r70.textContent="70% rule · investor max purchase price: $"+maxBuy.toLocaleString();
+  }
+  if(result){
+    result.style.display="block";
+    document.getElementById("flip-total").textContent="$"+total.toLocaleString();
+    const parts=["Base $"+base.toLocaleString(),...addons.map(a=>a.label+" +$"+a.price.toLocaleString())];
+    document.getElementById("flip-breakdown").textContent=parts.join(" · ");
+  }
+}
+
+// Price overrides — persisted in localStorage
+let priceOverrides={};
+try{priceOverrides=JSON.parse(localStorage.getItem("407prices")||"{}");}catch(e){}
+
+function getPrice(key,defaultPrice){
+  return priceOverrides[key]!==undefined?priceOverrides[key]:defaultPrice;
+}
+function savePrice(key,val){
+  priceOverrides[key]=val;
+  try{localStorage.setItem("407prices",JSON.stringify(priceOverrides));}catch(e){}
+}
+function editPrice(key,defaultPrice,unit){
+  const priceEl=document.getElementById("price-"+key);
+  const inputEl=document.getElementById("input-"+key);
+  if(!priceEl||!inputEl) return;
+  const cur=getPrice(key,defaultPrice);
+  inputEl.value=cur;
+  priceEl.style.display="none";
+  inputEl.style.display="inline-block";
+  inputEl.focus();
+  inputEl.select();
+  function commit(){
+    const newVal=parseFloat(inputEl.value);
+    if(!isNaN(newVal)&&newVal>0) savePrice(key,newVal);
+    render();
+  }
+  inputEl.onblur=commit;
+  inputEl.onkeydown=e=>{if(e.key==="Enter"){inputEl.blur();}if(e.key==="Escape"){render();}};
 }
 
 function render(){
-  const btn=document.getElementById("editBtn");
-  if(btn){btn.textContent=editMode?"✓ Done":"Edit Prices";btn.className="edit-toggle"+(editMode?" active":"");}
-
   document.getElementById("cards").innerHTML=CARDS.map((card,idx)=>{
     const isOpen=!!openCards[card.id];
     const disc=discounts[card.id]||0;
@@ -275,90 +302,138 @@ function render(){
     let body="";
 
     if(card.flipCalc){
-      body=`<div class="card-inner">
-        <input id="flip-arv" type="number" class="flip-input" placeholder="After Repair Value $" oninput="calcFlip()"/>
-        <div class="pct-row">
-          <div class="pct-lbl-row"><span class="pct-lbl">Job Complexity</span><span class="pct-val" id="flip-pct-lbl">25%</span></div>
-          <input type="range" min="15" max="30" value="25" step="5" oninput="calcFlip()" style="width:100%;accent-color:#C8A96E"/>
-          <div class="pct-marks"><span class="pct-mark">Cosmetic 15%</span><span class="pct-mark">Simple 20%</span><span class="pct-mark mid">Moderate 25%</span><span class="pct-mark">Complex 30%</span></div>
-        </div>
-        <div class="flip-base-row" id="flip-base-row">
-          <div class="flip-base-lbl">Base Renovation Price</div>
-          <div class="flip-base-num" id="flip-base-num">—</div>
-          <div class="flip-base-70" id="flip-rule70"></div>
-        </div>
-        <div style="font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#5C5650;margin-bottom:8px">Add to this flip</div>
-        <div class="flip-check-row" onclick="document.getElementById('flip-kitchen').click()">
-          <div class="flip-check-left"><input type="checkbox" id="flip-kitchen" onchange="calcFlip()" style="accent-color:#C8A96E;width:16px;height:16px"/><span class="flip-check-lbl">Flip a Kitchen</span></div>
-          <span class="flip-check-price">+$15,000</span>
-        </div>
-        <div class="flip-check-row" onclick="document.getElementById('flip-bath').click()">
-          <div class="flip-check-left"><input type="checkbox" id="flip-bath" onchange="calcFlip()" style="accent-color:#C8A96E;width:16px;height:16px"/><span class="flip-check-lbl">Flip a Bathroom</span></div>
-          <span class="flip-check-price">+$12,000</span>
-        </div>
-        <div class="flip-check-row" onclick="document.getElementById('flip-split').click()">
-          <div class="flip-check-left"><input type="checkbox" id="flip-split" onchange="calcFlip()" style="accent-color:#C8A96E;width:16px;height:16px"/><span class="flip-check-lbl">Unit Split / Extra Dwelling</span></div>
-          <span class="flip-check-price">+$9,000</span>
-        </div>
-        <div style="background:#161412;padding:12px 14px;border-radius:2px;margin-top:2px">
-          <div class="flip-check-row" style="background:transparent;padding:0 0 10px 0" onclick="document.getElementById('flip-gut').click()">
-            <div class="flip-check-left"><input type="checkbox" id="flip-gut" onchange="calcFlip()" style="accent-color:#C8A96E;width:16px;height:16px"/><span class="flip-check-lbl">Full Gut — studs to finish</span></div>
-            <span class="flip-check-price">$110 / sf</span>
+      body=`<div class="card-body-inner">
+        <div style="margin-bottom:20px">
+          <div style="font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#5C5650;margin-bottom:10px">After Repair Value</div>
+          <div style="display:flex;align-items:center;background:#161412;border:1px solid #2E2C2A;border-radius:2px;padding:12px 16px;gap:8px">
+            <span style="font-family:'Playfair Display',serif;font-size:24px;color:#C8A96E">$</span>
+            <input id="flip-arv" type="number" placeholder="0" oninput="calcFlip()"
+              style="background:transparent;border:none;font-family:'Playfair Display',serif;font-size:32px;color:#F7F6F3;width:100%;outline:none;letter-spacing:-.02em"/>
           </div>
-          <input id="flip-gut-sf" type="number" placeholder="sq ft" oninput="calcFlip()" style="background:#0F0E0C;border:1px solid #2E2C2A;border-radius:2px;padding:8px 12px;font-family:'Inter',sans-serif;font-size:14px;color:#F7F6F3;width:100%;outline:none"/>
-          <div id="flip-gut-result" style="display:none;margin-top:6px;font-family:'Inter',sans-serif;font-size:12px;color:#C8A96E;font-weight:500"></div>
         </div>
-        <div class="flip-result" id="flip-result">
-          <div class="flip-result-lbl">Your Total Price</div>
-          <div class="flip-result-total" id="flip-total">—</div>
-          <div class="flip-result-breakdown" id="flip-breakdown"></div>
+
+        <div style="margin-bottom:20px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div style="font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#5C5650">Job Complexity</div>
+            <div style="font-family:'Inter',sans-serif;font-weight:600;font-size:12px;color:#C8A96E" id="flip-pct-lbl">25%</div>
+          </div>
+          <input id="flip-pct" type="range" min="15" max="30" value="25" step="5" oninput="calcFlip()" style="width:100%;accent-color:#C8A96E"/>
+          <div style="display:flex;justify-content:space-between;margin-top:4px">
+            <span style="font-family:'Inter',sans-serif;font-size:10px;color:#3A3733">Cosmetic (15%)</span>
+            <span style="font-family:'Inter',sans-serif;font-size:10px;color:#3A3733">Simple (20%)</span>
+            <span style="font-family:'Inter',sans-serif;font-size:10px;color:#C8A96E">Moderate (25%)</span>
+            <span style="font-family:'Inter',sans-serif;font-size:10px;color:#3A3733">Complex (30%)</span>
+          </div>
+        </div>
+
+        <div id="flip-base-row" style="display:none;padding:14px 0;border-bottom:1px solid #1E1C1A;margin-bottom:16px">
+          <div style="font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#5C5650;margin-bottom:6px">Base Renovation Price</div>
+          <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:36px;color:#F7F6F3;letter-spacing:-.02em" id="flip-base">—</div>
+          <div style="font-family:'Inter',sans-serif;font-size:10px;color:#3A3733;margin-top:4px" id="flip-rule70"></div>
+        </div>
+
+        <div style="font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#5C5650;margin-bottom:12px">Add to this flip</div>
+        <div style="display:flex;flex-direction:column;gap:2px;margin-bottom:20px">
+          <label style="display:flex;align-items:center;justify-content:space-between;background:#161412;padding:14px 16px;cursor:pointer;border-radius:2px">
+            <div style="display:flex;align-items:center;gap:12px">
+              <input type="checkbox" id="flip-kitchen" onchange="calcFlip()" style="accent-color:#C8A96E;width:16px;height:16px;flex-shrink:0"/>
+              <span style="font-family:'Inter',sans-serif;font-size:13px;color:#8A8480">Flip a Kitchen</span>
+            </div>
+            <span style="font-family:'Inter',sans-serif;font-weight:500;font-size:13px;color:#F7F6F3">+$15,000</span>
+          </label>
+          <label style="display:flex;align-items:center;justify-content:space-between;background:#161412;padding:14px 16px;cursor:pointer;border-radius:2px">
+            <div style="display:flex;align-items:center;gap:12px">
+              <input type="checkbox" id="flip-bath" onchange="calcFlip()" style="accent-color:#C8A96E;width:16px;height:16px;flex-shrink:0"/>
+              <span style="font-family:'Inter',sans-serif;font-size:13px;color:#8A8480">Flip a Bathroom</span>
+            </div>
+            <span style="font-family:'Inter',sans-serif;font-weight:500;font-size:13px;color:#F7F6F3">+$12,000</span>
+          </label>
+          <label style="display:flex;align-items:center;justify-content:space-between;background:#161412;padding:14px 16px;cursor:pointer;border-radius:2px">
+            <div style="display:flex;align-items:center;gap:12px">
+              <input type="checkbox" id="flip-split" onchange="calcFlip()" style="accent-color:#C8A96E;width:16px;height:16px;flex-shrink:0"/>
+              <span style="font-family:'Inter',sans-serif;font-size:13px;color:#8A8480">Unit Split / Extra Dwelling</span>
+            </div>
+            <span style="font-family:'Inter',sans-serif;font-weight:500;font-size:13px;color:#F7F6F3">+$9,000</span>
+          </label>
+          <div style="background:#161412;padding:14px 16px;border-radius:2px;margin-top:2px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+              <div style="display:flex;align-items:center;gap:12px">
+                <input type="checkbox" id="flip-gut" onchange="calcFlip()" style="accent-color:#C8A96E;width:16px;height:16px;flex-shrink:0"/>
+                <span style="font-family:'Inter',sans-serif;font-size:13px;color:#8A8480">Full Gut — studs to finish</span>
+              </div>
+              <span style="font-family:'Inter',sans-serif;font-weight:500;font-size:13px;color:#F7F6F3">$110 / sf</span>
+            </div>
+            <div style="display:flex;align-items:center;background:#0F0E0C;border:1px solid #2E2C2A;border-radius:2px;padding:8px 12px;gap:8px">
+              <input id="flip-gut-sf" type="number" placeholder="sq ft" oninput="calcFlip()"
+                style="background:transparent;border:none;font-family:'Inter',sans-serif;font-size:15px;color:#F7F6F3;width:100%;outline:none;"/>
+              <span style="font-family:'Inter',sans-serif;font-size:11px;color:#3A3733;white-space:nowrap">sq ft</span>
+            </div>
+            <div id="flip-gut-result" style="display:none;margin-top:8px;font-family:'Inter',sans-serif;font-size:12px;color:#C8A96E;font-weight:500"></div>
+          </div>
+        </div>
+
+        <div id="flip-result" style="display:none;background:#C8A96E;border-radius:2px;padding:20px">
+          <div style="font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(0,0,0,0.5);margin-bottom:6px">Your Total Price</div>
+          <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:48px;color:#0F0E0C;letter-spacing:-.02em;line-height:1" id="flip-total">—</div>
+          <div style="font-family:'Inter',sans-serif;font-weight:300;font-size:11px;color:rgba(0,0,0,0.5);margin-top:8px;letter-spacing:.05em" id="flip-breakdown"></div>
         </div>
       </div>`;
-
     } else if(card.heroPrice){
       const pk=card.id+"-pkg";
       const pa=isAdded(pk);
-      body=`<div style="padding:0 20px 20px">
-        <div class="hero-block">
-          <div class="hero-ghost">${card.title[0]}</div>
-          <div class="hero-lbl">${card.title} — Complete Package</div>
-          <div class="hero-row">
-            <div>
-              <div style="display:flex;align-items:flex-start;gap:2px">
-                <span class="hero-dollar">$</span>
-                <span class="hero-num">${card.heroPrice.toLocaleString()}</span>
-              </div>
-              <div class="hero-sub">Labor + materials · firm price</div>
+      body=`<div class="hero">
+        <div class="hero-price-row">
+          <div>
+            <div class="hero-amount">
+              <span class="hero-currency">$</span>
+              <span class="hero-number">${finalPrice.toLocaleString()}</span>
             </div>
-            <button class="hero-addbtn ${pa?"added":""}" onclick="addItem('${pk}','${card.title} — complete package',${card.heroPrice},'${card.color}')">${pa?"✓ Added":"+ Add"}</button>
+            <div class="hero-caption">Complete package · labor + materials</div>
+            ${disc>0?`<div style="font-family:'Inter',sans-serif;font-size:11px;color:#3A3733;text-decoration:line-through;margin-top:4px">$${card.heroPrice.toLocaleString()}</div>`:""}
           </div>
+          <button class="hero-pkg-btn ${pa?"added":""}" onclick="addItem('${pk}','${card.title} — complete package',${finalPrice},'${card.color}')">${pa?"✓ Added":"+ Add"}</button>
         </div>
-        <div class="sect">Included in package</div>
-        ${card.included.map(it=>`<div class="line"><span class="line-label">${it}</span><span class="incl-badge">included</span></div>`).join("")}
-        <div class="sect" style="margin-top:16px">Extras — added to total</div>
-        ${card.addons.map((it,i)=>{
-          const k=card.id+"-addon-"+i;
-          const a=isAdded(k);
-          const p=getP(k,it.price);
-          return`<div class="line"><span class="line-label">${it.label}</span><div class="line-right">${editMode?`<input class="price-field" data-key="${k}" data-def="${it.price}" value="${p}" type="number"/>`:`<span class="line-price">${fmt(p,it.unit)}</span>`}<button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${it.label}',${p},'${card.color}')">${a?"✓":"+"}</button></div></div>`;
+        <div class="disc">
+          <div class="disc-lbl">Discount</div>
+          <div class="disc-btns">
+            ${[0,250,500,750,1000].map(d=>`<button class="disc-btn ${disc===d?"active":""}" onclick="setDiscount('${card.id}',${d})">${d===0?"None":"-$"+d.toLocaleString()}</button>`).join("")}
+          </div>
+          ${disc>0?`<div class="disc-result">Final: $${finalPrice.toLocaleString()} · saving $${disc.toLocaleString()}</div>`:""}
+        </div>
+        <div class="sect-lbl">Included</div>
+        ${card.included.map(item=>`<div class="body-line"><span class="body-label">${item}</span><span class="incl-badge">included</span></div>`).join("")}
+        <div class="sect-lbl" style="margin-top:20px">Add-ons</div>
+        ${card.addons.map((item,i)=>{
+          const k=card.id+"-addon-"+i;const a=isAdded(k);
+          const p=getPrice(k,item.price);
+          return`<div class="body-line"><span class="body-label">${item.label}</span><span id="price-${k}" class="body-price">${fmt(p,item.unit)}</span><input id="input-${k}" type="number" class="price-input" style="display:none" /><button class="edit-btn" onclick="editPrice('${k}',${item.price},'${item.unit||''}')">✎</button><button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${item.label}',${p},'${card.color}')">${a?"✓":"+"}</button></div>`;
         }).join("")}
-        ${card.id==="bathroom"?`<div style="padding:12px 0 0;font-family:'Inter',sans-serif;font-weight:300;font-size:11px;color:#3A3733;border-top:1px solid #1E1C1A;margin-top:12px">Labor only starting at $3,500 · simple bathroom 5 days or less</div>`:""}
+        <div style="padding:16px 0 4px;border-top:1px solid #1E1C1A;margin-top:16px;font-family:'Inter',sans-serif;font-weight:300;font-size:11px;color:#3A3733;letter-spacing:.05em;">Labor only starting at $3,500 · simple bathroom 5 days or less</div>
       </div>`;
-
     } else {
-      body=`<div class="card-inner">${card.items.map((it,i)=>{
-        const k=card.id+"-"+i;
-        const a=isAdded(k);
-        const p=getP(k,it.price);
-        return`<div class="line"><span class="line-label">${it.label}</span><div class="line-right">${editMode?`<input class="price-field" data-key="${k}" data-def="${it.price}" value="${p}" type="number"/>`:`<span class="line-price">${fmt(p,it.unit)}</span>`}<button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${it.label}',${p},'${card.color}')">${a?"✓":"+"}</button></div></div>`;
-      }).join("")}</div>`;
+      body=`<div class="card-body-inner">
+        ${card.items.map((item,i)=>{
+          const k=card.id+"-"+i;
+          const a=isAdded(k);
+          const p=getPrice(k,item.price);
+          return`<div class="body-line"><span class="body-label">${item.label}</span><span id="price-${k}" class="body-price">${fmt(p,item.unit)}</span><input id="input-${k}" type="number" class="price-input" style="display:none" /><button class="edit-btn" onclick="editPrice('${k}',${item.price},'${item.unit||''}')">✎</button><button class="add-btn ${a?"added":""}" onclick="addItem('${k}','${item.label}',${p},'${card.color}')">${a?"✓":"+"}</button></div>`;
+        }).join("")}
+      </div>`;
     }
 
     return`<div class="card ${isOpen?"open":""}">
       <div class="card-head" onclick="toggleCard('${card.id}')">
-        <div class="card-left"><span class="card-num">${String(idx+1).padStart(2,"0")}</span><span class="card-name">${card.title}</span></div>
-        <div class="card-right">${card.heroPrice?`<span class="card-min">from $${card.heroPrice.toLocaleString()}</span>`:""}<span class="card-arrow">▾</span></div>
+        <div class="card-left">
+          <span class="card-num">${String(idx+1).padStart(2,"0")}</span>
+          <span class="card-name">${card.title}</span>
+        </div>
+        <div class="card-right">
+          ${card.min?`<span class="card-min">from ${fmt(card.min)}</span>`:""}
+          ${card.heroPrice?`<span class="card-min">from ${fmt(card.heroPrice)}</span>`:""}
+          <span class="card-arrow"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></span>
+        </div>
       </div>
+      ${card.tagline?`<div class="card-tagline">${card.tagline}</div>`:""}
       <div class="card-body">${body}</div>
     </div>`;
   }).join("");
@@ -370,12 +445,14 @@ function render(){
   document.getElementById("sumTotal").textContent="$"+Math.round(total).toLocaleString();
   document.getElementById("sumItems").innerHTML=summary.map(item=>`
     <div class="sum-line">
-      <div style="display:flex;align-items:center;flex:1"><div class="sum-dot" style="background:${item.color}"></div><span class="sum-name">${item.label}</span></div>
-      <span class="sum-price">$${Math.round(item.price).toLocaleString()}</span>
+      <div style="display:flex;align-items:center;flex:1">
+        <div class="sum-dot" style="background:${item.color}"></div>
+        <span class="sum-name">${item.label}</span>
+      </div>
+      <span class="sum-price">${fmt(item.price)}</span>
       <button class="sum-rm" onclick="addItem('${item.id}','','0','')">×</button>
     </div>`).join("");
 }
-
 render();
 </script>
 </body>

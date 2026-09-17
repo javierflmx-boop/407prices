@@ -319,12 +319,29 @@ function toggleEdit(){
   render();
 }
 
+let currentPct=25;
+
+function setPct(p){
+  currentPct=p;
+  const labels={15:"Cosmetic 15%",20:"Simple 20%",25:"Moderate 25%",30:"Complex 30%"};
+  const lbl=document.getElementById("flip-pct-lbl");
+  if(lbl) lbl.textContent=labels[p]||p+"%";
+  [15,20,25,30].forEach(v=>{
+    const btn=document.getElementById("pct-btn-"+v);
+    if(btn){
+      btn.style.background=v===p?"#C8A96E":"#161412";
+      btn.style.color=v===p?"#0F0E0C":"#5C5650";
+      btn.style.borderColor=v===p?"#C8A96E":"#2E2C2A";
+    }
+  });
+  calcFlip();
+}
+
 function calcFlip(){
   const arv=parseFloat(document.getElementById("flip-arv")?.value)||0;
-  const pctEl=document.getElementById("flip-pct");
-  const pct=pctEl?parseInt(pctEl.value):25;
+  const pct=currentPct;
   const pctLbl=document.getElementById("flip-pct-lbl");
-  if(pctLbl) pctLbl.textContent=pct+"%";
+  if(pctLbl){const labels={15:"Cosmetic 15%",20:"Simple 20%",25:"Moderate 25%",30:"Complex 30%"};pctLbl.textContent=labels[pct]||pct+"%";}
   const kitchen=document.getElementById("flip-kitchen")?.checked;
   const bath=document.getElementById("flip-bath")?.checked;
   const split=document.getElementById("flip-split")?.checked;
@@ -379,7 +396,7 @@ function render(){
   // Save flip calculator state before re-render
   const flipState={
     arv: document.getElementById("flip-arv")?.value||"",
-    pct: document.getElementById("flip-pct")?.value||"25",
+    pct: currentPct,
     kitchen: document.getElementById("flip-kitchen")?.checked||false,
     bath: document.getElementById("flip-bath")?.checked||false,
     split: document.getElementById("flip-split")?.checked||false,
@@ -426,13 +443,16 @@ function render(){
       </div>`;
     } else if(card.flipCalc){
       body=`<div class="card-inner">
-        <input id="flip-arv" type="number" class="flip-input" placeholder="After Repair Value $" oninput="calcFlip()"/>
-        <div class="pct-row">
-          <div class="pct-lbl-row"><span class="pct-lbl">Job Complexity</span><span class="pct-val" id="flip-pct-lbl">25%</span></div>
-          <input type="range" min="15" max="30" value="25" step="5" oninput="calcFlip()" style="width:100%;accent-color:#C8A96E"/>
-          <div class="pct-marks"><span class="pct-mark">Cosmetic 15%</span><span class="pct-mark">Simple 20%</span><span class="pct-mark mid">Moderate 25%</span><span class="pct-mark">Complex 30%</span></div>
+        <input id="flip-arv" type="number" placeholder="After Repair Value $" oninput="calcFlip()" style="width:100%;background:#161412;border:1px solid #2E2C2A;border-radius:2px;padding:12px 14px;font-family:'Playfair Display',serif;font-size:28px;color:#F7F6F3;outline:none;margin-bottom:14px"/>
+        <div style="margin-bottom:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#5C5650">Job Complexity</span><span style="font-family:'Inter',sans-serif;font-weight:600;font-size:12px;color:#C8A96E" id="flip-pct-lbl">Moderate 25%</span></div>
+          <div style="display:flex;gap:4px" id="pct-btns">
+            <button onclick="setPct(15)" id="pct-btn-15" style="flex:1;padding:10px 2px;border-radius:2px;border:1px solid #2E2C2A;background:#161412;color:#5C5650;font-family:'Inter',sans-serif;font-weight:600;font-size:10px;cursor:pointer;line-height:1.4">Cosmetic<br>15%</button>
+            <button onclick="setPct(20)" id="pct-btn-20" style="flex:1;padding:10px 2px;border-radius:2px;border:1px solid #2E2C2A;background:#161412;color:#5C5650;font-family:'Inter',sans-serif;font-weight:600;font-size:10px;cursor:pointer;line-height:1.4">Simple<br>20%</button>
+            <button onclick="setPct(25)" id="pct-btn-25" style="flex:1;padding:10px 2px;border-radius:2px;border:1px solid #C8A96E;background:#C8A96E;color:#0F0E0C;font-family:'Inter',sans-serif;font-weight:600;font-size:10px;cursor:pointer;line-height:1.4">Moderate<br>25%</button>
+            <button onclick="setPct(30)" id="pct-btn-30" style="flex:1;padding:10px 2px;border-radius:2px;border:1px solid #2E2C2A;background:#161412;color:#5C5650;font-family:'Inter',sans-serif;font-weight:600;font-size:10px;cursor:pointer;line-height:1.4">Complex<br>30%</button>
+          </div>
         </div>
-        <div class="flip-base-row" id="flip-base-row">
           <div class="flip-base-lbl">Base Renovation Price</div>
           <div class="flip-base-num" id="flip-base-num">—</div>
           <div class="flip-base-70" id="flip-rule70"></div>
@@ -521,10 +541,8 @@ function render(){
 
   // Restore flip calculator state
   const arvEl=document.getElementById("flip-arv");
-  const pctEl2=document.getElementById("flip-pct");
-  const pctLbl2=document.getElementById("flip-pct-lbl");
   if(arvEl) arvEl.value=flipState.arv;
-  if(pctEl2){pctEl2.value=flipState.pct;if(pctLbl2)pctLbl2.textContent=flipState.pct+"%";}
+  setPct(flipState.pct);
   if(document.getElementById("flip-kitchen")) document.getElementById("flip-kitchen").checked=flipState.kitchen;
   if(document.getElementById("flip-bath")) document.getElementById("flip-bath").checked=flipState.bath;
   if(document.getElementById("flip-split")) document.getElementById("flip-split").checked=flipState.split;

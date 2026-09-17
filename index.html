@@ -347,6 +347,16 @@ function calcFlip(){
 }
 
 function render(){
+  // Save flip calculator state before re-render
+  const flipState={
+    arv: document.getElementById("flip-arv")?.value||"",
+    pct: document.getElementById("flip-pct")?.value||"25",
+    kitchen: document.getElementById("flip-kitchen")?.checked||false,
+    bath: document.getElementById("flip-bath")?.checked||false,
+    split: document.getElementById("flip-split")?.checked||false,
+    gut: document.getElementById("flip-gut")?.checked||false,
+    gutSf: document.getElementById("flip-gut-sf")?.value||"",
+  };
   const btn=document.getElementById("editBtn");
   if(btn){btn.textContent=editMode?"✓ Done":"Edit Prices";btn.className="edit-toggle"+(editMode?" active":"");}
 
@@ -450,6 +460,20 @@ function render(){
       <div class="card-body">${body}</div>
     </div>`;
   }).join("");
+
+  // Restore flip calculator state
+  const arvEl=document.getElementById("flip-arv");
+  const pctEl2=document.getElementById("flip-pct");
+  const pctLbl2=document.getElementById("flip-pct-lbl");
+  if(arvEl) arvEl.value=flipState.arv;
+  if(pctEl2){pctEl2.value=flipState.pct;if(pctLbl2)pctLbl2.textContent=flipState.pct+"%";}
+  if(document.getElementById("flip-kitchen")) document.getElementById("flip-kitchen").checked=flipState.kitchen;
+  if(document.getElementById("flip-bath")) document.getElementById("flip-bath").checked=flipState.bath;
+  if(document.getElementById("flip-split")) document.getElementById("flip-split").checked=flipState.split;
+  if(document.getElementById("flip-gut")) document.getElementById("flip-gut").checked=flipState.gut;
+  const gutSfEl=document.getElementById("flip-gut-sf");
+  if(gutSfEl) gutSfEl.value=flipState.gutSf;
+  if(flipState.arv) calcFlip();
 
   const bar=document.getElementById("sumBar");
   if(summary.length===0){bar.style.display="none";return;}

@@ -273,7 +273,7 @@ function confirmQty(){
 function handleAdd(btn){
   const id=btn.dataset.id;
   const label=btn.dataset.label;
-  const price=parseFloat(btn.dataset.price);
+  const price=parseFloat(btn.dataset.price)||0;
   const color=btn.dataset.color;
   const qty=btn.dataset.qty;
   const unit=btn.dataset.unit;
@@ -282,15 +282,14 @@ function handleAdd(btn){
 
 function addItem(id,label,price,color,qty,unit){
   if(editMode) return;
-  if(qty){
-    // check if already added — remove it
+  if(qty && qty.length>0){
     const existing=summary.find(s=>s.id===id||s.id.startsWith(id+"-x"));
     if(existing){summary=summary.filter(s=>s.id!==existing.id);render();return;}
-    openQty(id,label,price,color,unit||qty);
+    openQty(id,label,price,color,unit&&unit.length>0?unit:qty);
     return;
   }
   if(isAdded(id)) summary=summary.filter(s=>s.id!==id);
-  else summary.push({id,label,price,color});
+  else summary.push({id,label,price:parseFloat(price)||0,color});
   render();
 }
 function removeItem(id){

@@ -80,19 +80,19 @@ body{background:linear-gradient(180deg,#F5C01A 0%,#E8A020 40%,#7A4208 100%);font
 .pct-marks{display:flex;justify-content:space-between;margin-top:4px}
 .pct-mark{font-family:'Inter',sans-serif;font-size:9px;color:#3A3733}
 .pct-mark.mid{color:#C8A96E}
-.sum-bar{position:fixed;bottom:0;left:0;right:0;background:#0F0E0C;border-top:1px solid #1E1C1A;box-shadow:0 -4px 20px rgba(0,0,0,0.3);z-index:100;display:none}
-.sum-inner{max-width:560px;margin:0 auto;padding:12px 16px 18px}
-.sum-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #1E1C1A}
-.sum-lbl{font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#5C5650}
-.sum-total{font-family:'Playfair Display',serif;font-weight:700;font-size:24px;color:#F7F6F3}
-.sum-clear{padding:5px 12px;border-radius:20px;border:1px solid #2E2C2A;background:transparent;font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#5C5650;cursor:pointer}
-.sum-items{max-height:120px;overflow-y:auto}
-.sum-line{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #1A1814}
+.sum-bar{position:fixed;bottom:0;left:0;right:0;background:#0F0E0C;border-top:2px solid #C8A96E;box-shadow:0 -4px 30px rgba(0,0,0,0.6);z-index:100;display:none}
+.sum-inner{max-width:560px;margin:0 auto;padding:14px 20px 28px}
+.sum-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #2E2C2A}
+.sum-lbl{font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#C8A96E}
+.sum-total{font-family:'Playfair Display',serif;font-weight:700;font-size:32px;color:#ffffff;letter-spacing:-.02em}
+.sum-clear{padding:7px 16px;border-radius:20px;border:1px solid #3A3733;background:transparent;font-family:'Inter',sans-serif;font-weight:500;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#8A8480;cursor:pointer}
+.sum-items{max-height:130px;overflow-y:auto}
+.sum-line{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #1E1C1A}
 .sum-line:last-child{border-bottom:none}
-.sum-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-right:7px}
+.sum-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-right:8px}
 .sum-name{font-size:12px;color:#8A8480;flex:1;font-family:'Inter',sans-serif}
-.sum-price{font-family:'Inter',sans-serif;font-weight:500;font-size:12px;color:#F7F6F3;margin-right:8px}
-.sum-rm{background:none;border:none;cursor:pointer;color:#3A3733;font-size:14px;padding:0;line-height:1}
+.sum-price{font-family:'Inter',sans-serif;font-weight:600;font-size:13px;color:#F7F6F3;margin-right:10px}
+.sum-rm{background:none;border:none;cursor:pointer;color:#5C5650;font-size:16px;padding:0;line-height:1}
 </style>
 </head>
 <body>
@@ -130,6 +130,7 @@ body{background:linear-gradient(180deg,#F5C01A 0%,#E8A020 40%,#7A4208 100%);font
 <script>
 const CARDS=[
   {id:"flip",color:"#C8A96E",title:"Flip Calculator",flipCalc:true},
+  {id:"sfcalc",color:"#1ABC9C",title:"SF Calculator",sfCalc:true},
   {id:"design",color:"#8E6BBF",title:"Interior Design",items:[
     {label:"On-site consultation (1–2 hrs)",price:200},
     {label:"Space planning & layout",price:350},
@@ -153,8 +154,9 @@ const CARDS=[
     {label:"Helper — week (5 days)",price:1800,qty:"weeks"},
   ]},
   {id:"bathroom",color:"#E07A30",title:"Bathroom",heroPrice:12000,
-    included:["Custom design & layout","Demo & haul","Shower walls — 24\"×48\" tile","Floor tile","Drywall / cement board","Toilet supply & install","Vanity supply & install","Plumbing rough & finish","LED lights","Grout, seal & cleanup"],
+    included:["Custom design & layout","Demo & haul","Shower walls — 24\"×48\" tile","Floor tile","Drywall / cement board","Toilet supply & install","Vanity supply & install","Plumbing rough & finish","Grout, seal & cleanup"],
     addons:[
+      {label:"LED lights install",price:350},
       {label:"Second floor surcharge",price:2000},
       {label:"Custom vanity supply & install",price:1500},
       {label:"Premium toilet supply & install",price:500},
@@ -289,7 +291,7 @@ function addItem(id,label,price,color,qty,unit){
     return;
   }
   if(isAdded(id)) summary=summary.filter(s=>s.id!==id);
-  else summary.push({id,label,price:parseFloat(price)||0,color});
+  else summary.push({id,label,price:parseFloat(price)||0,color:color||"#C8A96E"});
   render();
 }
 function removeItem(id){
@@ -346,6 +348,33 @@ function calcFlip(){
   if(result){result.style.display="block";document.getElementById("flip-total").textContent="$"+total.toLocaleString();const parts=["Base $"+base.toLocaleString(),...addons.map(a=>a.label+" +$"+a.price.toLocaleString())];document.getElementById("flip-breakdown").textContent=parts.join(" · ");}
 }
 
+function calcSF(){
+  const sf=parseFloat(document.getElementById("sf-input")?.value)||0;
+  const type=document.getElementById("sf-type")?.value;
+  const result=document.getElementById("sf-result");
+  if(!sf||!type){if(result)result.style.display="none";return;}
+  const rates={
+    "home-cosmetic":{label:"Home — Cosmetic",rate:65},
+    "home-standard":{label:"Home — Standard",rate:110},
+    "home-highend":{label:"Home — High-End",rate:160},
+    "comm-office":{label:"Commercial — Office",rate:75},
+    "comm-retail":{label:"Commercial — Retail",rate:100},
+    "comm-restaurant":{label:"Commercial — Restaurant",rate:120},
+    "comm-medical":{label:"Commercial — Medical",rate:150},
+  };
+  const r=rates[type];
+  if(!r)return;
+  const total=Math.round(sf*r.rate);
+  const low=Math.round(sf*(r.rate*0.85));
+  const high=Math.round(sf*(r.rate*1.15));
+  if(result){
+    result.style.display="block";
+    document.getElementById("sf-total").textContent="$"+total.toLocaleString();
+    document.getElementById("sf-range").textContent="Range: $"+low.toLocaleString()+" — $"+high.toLocaleString();
+    document.getElementById("sf-rate-lbl").textContent=r.label+" · $"+r.rate+" / sf · "+sf.toLocaleString()+" sf";
+  }
+}
+
 function render(){
   // Save flip calculator state before re-render
   const flipState={
@@ -357,6 +386,10 @@ function render(){
     gut: document.getElementById("flip-gut")?.checked||false,
     gutSf: document.getElementById("flip-gut-sf")?.value||"",
   };
+  const sfState={
+    type: document.getElementById("sf-type")?.value||"",
+    sf: document.getElementById("sf-input")?.value||"",
+  };
   const btn=document.getElementById("editBtn");
   if(btn){btn.textContent=editMode?"✓ Done":"Edit Prices";btn.className="edit-toggle"+(editMode?" active":"");}
 
@@ -366,7 +399,32 @@ function render(){
     const finalPrice=(card.heroPrice||0)-disc;
     let body="";
 
-    if(card.flipCalc){
+    if(card.sfCalc){
+      body=`<div class="card-inner">
+        <div style="font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#5C5650;margin-bottom:8px">Renovation Type</div>
+        <select id="sf-type" onchange="calcSF()" style="width:100%;background:#161412;border:1px solid #2E2C2A;border-radius:2px;padding:12px 14px;font-family:'Inter',sans-serif;font-size:14px;color:#F7F6F3;outline:none;margin-bottom:14px;appearance:none">
+          <option value="">Select type...</option>
+          <optgroup label="Residential">
+            <option value="home-cosmetic">Home — Cosmetic ($65/sf)</option>
+            <option value="home-standard">Home — Standard ($110/sf)</option>
+            <option value="home-highend">Home — High-End ($160/sf)</option>
+          </optgroup>
+          <optgroup label="Commercial">
+            <option value="comm-office">Office ($75/sf)</option>
+            <option value="comm-retail">Retail ($100/sf)</option>
+            <option value="comm-restaurant">Restaurant ($120/sf)</option>
+            <option value="comm-medical">Medical ($150/sf)</option>
+          </optgroup>
+        </select>
+        <div style="font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#5C5650;margin-bottom:8px">Square Footage</div>
+        <input id="sf-input" type="number" placeholder="0" oninput="calcSF()" style="width:100%;background:#161412;border:1px solid #2E2C2A;border-radius:2px;padding:12px 14px;font-family:'Playfair Display',serif;font-size:28px;color:#F7F6F3;outline:none;margin-bottom:14px"/>
+        <div id="sf-result" style="display:none;background:#1ABC9C18;border:1px solid #1ABC9C44;border-radius:4px;padding:18px">
+          <div style="font-family:'Inter',sans-serif;font-size:10px;color:#1ABC9C;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px" id="sf-rate-lbl"></div>
+          <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:44px;color:#F7F6F3;line-height:1;letter-spacing:-.02em" id="sf-total">—</div>
+          <div style="font-family:'Inter',sans-serif;font-size:11px;color:#5C5650;margin-top:6px" id="sf-range"></div>
+        </div>
+      </div>`;
+    } else if(card.flipCalc){
       body=`<div class="card-inner">
         <input id="flip-arv" type="number" class="flip-input" placeholder="After Repair Value $" oninput="calcFlip()"/>
         <div class="pct-row">
@@ -426,7 +484,7 @@ function render(){
               </div>
               <div class="hero-sub">Labor + materials · firm price</div>
             </div>
-            <button class="hero-addbtn ${pa?"added":""}" onclick="addItem('${pk}','${card.title} — complete package',${getP(card.id+'-hero',card.heroPrice)},'${card.color}')">${pa?"✓ Added":"+ Add"}</button>
+            <button class="hero-addbtn ${pa?"added":""}" data-id="${pk}" data-label="${card.title} complete package" data-price="${getP(card.id+'-hero',card.heroPrice)}" data-color="${card.color}" data-qty="" data-unit="" onclick="handleAdd(this)">${pa?"✓ Added":"+ Add"}</button>
           </div>
         </div>
         <div class="sect">Included in package</div>
@@ -475,16 +533,23 @@ function render(){
   if(gutSfEl) gutSfEl.value=flipState.gutSf;
   if(flipState.arv) calcFlip();
 
+  // Restore SF calculator state
+  const sfTypeEl=document.getElementById("sf-type");
+  const sfInputEl=document.getElementById("sf-input");
+  if(sfTypeEl) sfTypeEl.value=sfState.type;
+  if(sfInputEl) sfInputEl.value=sfState.sf;
+  if(sfState.sf&&sfState.type) calcSF();
+
   const bar=document.getElementById("sumBar");
   if(summary.length===0){bar.style.display="none";return;}
   bar.style.display="block";
-  const total=summary.reduce((s,i)=>s+(i.price||0),0);
+  const total=summary.reduce((s,i)=>s+(parseFloat(i.price)||0),0);
   document.getElementById("sumTotal").textContent="$"+Math.round(total).toLocaleString();
   document.getElementById("sumItems").innerHTML=summary.map(item=>`
     <div class="sum-line">
       <div style="display:flex;align-items:center;flex:1"><div class="sum-dot" style="background:${item.color}"></div><span class="sum-name">${item.label}</span></div>
-      <span class="sum-price">$${Math.round(item.price).toLocaleString()}</span>
-      <button class="sum-rm" onclick="removeItem('${item.id}')">×</button>
+      <span class="sum-price">$${Math.round(parseFloat(item.price)||0).toLocaleString()}</span>
+      <button class="sum-rm" data-id="${item.id}" onclick="removeItem(this.dataset.id)">×</button>
     </div>`).join("");
 }
 

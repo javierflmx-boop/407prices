@@ -147,6 +147,10 @@ const CARDS=[
     {label:"3-day job",price:2400,qty:"jobs"},
     {label:"Week (5 days)",price:4000,qty:"weeks"},
     {label:"Emergency / same-day",price:150,unit:"/ hr",qty:"hours"},
+    {label:"Helper — hourly",price:45,qty:"hours"},
+    {label:"Helper — half day (4 hrs)",price:180,qty:"days"},
+    {label:"Helper — full day (8 hrs)",price:360,qty:"days"},
+    {label:"Helper — week (5 days)",price:1800,qty:"weeks"},
   ]},
   {id:"bathroom",color:"#E07A30",title:"Bathroom",heroPrice:12000,
     included:["Custom design & layout","Demo & haul","Shower walls — 24\"×48\" tile","Floor tile","Drywall / cement board","Toilet supply & install","Vanity supply & install","Plumbing rough & finish","LED lights","Grout, seal & cleanup"],
@@ -289,6 +293,10 @@ function addItem(id,label,price,color,qty,unit){
   else summary.push({id,label,price,color});
   render();
 }
+function removeItem(id){
+  summary=summary.filter(s=>s.id!==id&&!s.id.startsWith(id+"-x"));
+  render();
+}
 function clearAll(){summary=[];render();}
 function toggleCard(id){openCards[id]=!openCards[id];render();}
 function setDiscount(cardId,d){discounts[cardId]=d;render();}
@@ -417,7 +425,6 @@ function render(){
         <div class="sect" style="margin-top:16px">Extras — added to total</div>
         ${card.addons.map((it,i)=>{
           const k=card.id+"-addon-"+i;
-          const a=isAdded(k);
           const p=getP(k,it.price);
           const added=summary.some(s=>s.id===k||s.id.startsWith(k+'-x'));
         const qtyAttr=it.qty||'';const unitAttr=it.unit||it.qty||'';
@@ -429,7 +436,6 @@ function render(){
     } else {
       body=`<div class="card-inner">${card.items.map((it,i)=>{
         const k=card.id+"-"+i;
-        const a=isAdded(k);
         const p=getP(k,it.price);
         const added=summary.some(s=>s.id===k||s.id.startsWith(k+'-x'));
         const qtyAttr=it.qty||'';const unitAttr=it.unit||it.qty||'';
@@ -455,7 +461,7 @@ function render(){
     <div class="sum-line">
       <div style="display:flex;align-items:center;flex:1"><div class="sum-dot" style="background:${item.color}"></div><span class="sum-name">${item.label}</span></div>
       <span class="sum-price">$${Math.round(item.price).toLocaleString()}</span>
-      <button class="sum-rm" onclick="addItem('${item.id}','','0','')">×</button>
+      <button class="sum-rm" onclick="removeItem('${item.id}')">×</button>
     </div>`).join("");
 }
 

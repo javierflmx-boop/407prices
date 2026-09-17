@@ -125,6 +125,15 @@ body{background:linear-gradient(180deg,#F5C01A 0%,#E8A020 40%,#7A4208 100%);font
       <button class="sum-clear" onclick="clearAll()">Clear all</button>
     </div>
     <div class="sum-items" id="sumItems"></div>
+    <button onclick="calculateAll()" style="width:100%;margin-top:12px;padding:16px;background:#C8A96E;border:none;border-radius:4px;font-family:'Playfair Display',serif;font-weight:700;font-size:20px;color:#0F0E0C;cursor:pointer;">Calculate Total</button>
+  </div>
+</div>
+<div id="calcModal" style="position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.75)" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:#0F0E0C;border-radius:16px;padding:28px 24px;width:90%;max-width:400px;border:1px solid #C8A96E">
+    <div style="font-family:'Inter',sans-serif;font-weight:500;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#C8A96E;margin-bottom:6px">Total Estimate</div>
+    <div id="calcTotal" style="font-family:'Playfair Display',serif;font-weight:700;font-size:54px;color:#fff;line-height:1;letter-spacing:-.02em;margin-bottom:16px">$0</div>
+    <div id="calcLines" style="border-top:1px solid #1E1C1A;padding-top:12px;margin-bottom:20px;max-height:240px;overflow-y:auto"></div>
+    <button onclick="document.getElementById('calcModal').style.display='none'" style="width:100%;padding:14px;background:#1E1C1A;border:none;border-radius:4px;font-family:'Inter',sans-serif;font-weight:500;font-size:13px;color:#8A8480;cursor:pointer;">Close</button>
   </div>
 </div>
 <script>
@@ -297,6 +306,22 @@ function addItem(id,label,price,color,qty,unit){
   else summary.push({id,label,price:parseFloat(price)||0,color:color||"#C8A96E"});
   render();
 }
+function calculateAll(){
+  if(summary.length===0) return;
+  const total=summary.reduce((s,i)=>s+(parseFloat(i.price)||0),0);
+  const modal=document.getElementById("calcModal");
+  document.getElementById("calcTotal").textContent="$"+Math.round(total).toLocaleString();
+  document.getElementById("calcLines").innerHTML=summary.map(item=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #1E1C1A">
+      <div style="display:flex;align-items:center;gap:8px;flex:1">
+        <div style="width:6px;height:6px;border-radius:50%;background:${item.color};flex-shrink:0"></div>
+        <span style="font-family:'Inter',sans-serif;font-size:12px;color:#8A8480">${item.label}</span>
+      </div>
+      <span style="font-family:'Inter',sans-serif;font-weight:600;font-size:13px;color:#F7F6F3">$${Math.round(parseFloat(item.price)||0).toLocaleString()}</span>
+    </div>`).join("");
+  modal.style.display="flex";
+}
+
 function removeItem(id){
   summary=summary.filter(s=>s.id!==id&&!s.id.startsWith(id+"-x"));
   render();

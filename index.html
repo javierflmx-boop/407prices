@@ -523,24 +523,21 @@ function render(){
 
     } else if(card.heroPrice){
       const pk=card.id+"-pkg";
-      const pa=isAdded(pk);
-      body=`<div style="padding:0 20px 20px">
+        const heroPrice=getP(card.id+'HERO',card.heroPrice);
+        body=`<div style="padding:0 20px 20px">
         <div class="hero-block">
           <div class="hero-ghost">${card.title[0]}</div>
           <div class="hero-lbl">${card.title} — Complete Package</div>
-        ${(()=>{const heroP=getP(card.id+'HERO',card.heroPrice);return`<div class="hero-row">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-top:8px">
             <div>
               <div style="display:flex;align-items:flex-start;gap:2px">
                 <span class="hero-dollar">$</span>
-                ${editMode
-                  ? `<input class="price-field" data-key="${card.id}HERO" data-def="${card.heroPrice}" value="${getP(card.id+'HERO',card.heroPrice)}" type="number" style="font-family:'Playfair Display',serif;font-size:40px;width:160px;background:#1A1814;border:1px solid #C8A96E;border-radius:4px;padding:4px 8px;color:#fff;outline:none"/>`
-                  : `<span class="hero-num">${heroP.toLocaleString()}</span>`
-                }
+                <span class="hero-num">${heroPrice.toLocaleString()}</span>
               </div>
               <div class="hero-sub">Labor + materials · firm price</div>
             </div>
-            <button class="hero-addbtn ${pa?"added":""}" data-id="${pk}" data-label="${card.title} complete package" data-price="${heroP}" data-color="${card.color}" data-qty="" data-unit="" onclick="handleAdd(this)">${pa?"✓ Added":"+ Add"}</button>
-          </div>`;})()}
+            <button class="hero-addbtn ${pa?"added":""}" data-id="${pk}" data-label="${card.title} package" data-price="${heroPrice}" data-color="${card.color}" data-qty="" data-unit="" onclick="handleAdd(this)">${pa?"✓ Added":"+ Add"}</button>
+          </div>
         </div>
         <div class="sect">Included in package</div>
         ${card.included.map(it=>`<div class="line"><span class="line-label">${it}</span><span class="incl-badge">included</span></div>`).join("")}

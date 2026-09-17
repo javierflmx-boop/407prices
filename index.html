@@ -240,7 +240,7 @@ let summary=[],openCards={},discounts={},editMode=false;
 let saved={};
 try{saved=JSON.parse(localStorage.getItem("407pb")||"{}");}catch(e){}
 
-function getP(key,def){return saved[key]!==undefined?saved[key]:def;}
+function getP(key,def){const k=key.replace('HERO','-hero');return saved[k]!==undefined?saved[k]:(saved[key]!==undefined?saved[key]:def);}
 function setP(key,val){saved[key]=val;try{localStorage.setItem("407pb",JSON.stringify(saved));}catch(e){}}
 
 function fmt(n,unit){
@@ -289,8 +289,15 @@ function handleAdd(btn){
   const label=btn.dataset.label;
   const price=parseFloat(btn.dataset.price)||0;
   const color=btn.dataset.color;
-  const qty=btn.dataset.qty;
-  const unit=btn.dataset.unit;
+  const qty=btn.dataset.qty||"";
+  const unit=btn.dataset.unit||"";
+  // Hero buttons (kitchen/bathroom package) should always work
+  if(id.endsWith('-pkg')){
+    if(isAdded(id)) summary=summary.filter(s=>s.id!==id);
+    else summary.push({id,label,price,color:color||"#C8A96E"});
+    render();
+    return;
+  }
   addItem(id,label,price,color,qty,unit);
 }
 
@@ -521,12 +528,12 @@ function render(){
         <div class="hero-block">
           <div class="hero-ghost">${card.title[0]}</div>
           <div class="hero-lbl">${card.title} — Complete Package</div>
-        ${(()=>{const heroP=getP(card.id+'-hero',card.heroPrice);return`<div class="hero-row">
+        ${(()=>{const heroP=getP(card.id+'HERO',card.heroPrice);return`<div class="hero-row">
             <div>
               <div style="display:flex;align-items:flex-start;gap:2px">
                 <span class="hero-dollar">$</span>
                 ${editMode
-                  ? `<input class="price-field" data-key="${card.id}-hero" data-def="${card.heroPrice}" value="${getP(card.id+'-hero',card.heroPrice)}" type="number" style="font-family:'Playfair Display',serif;font-size:40px;width:160px;background:#1A1814;border:1px solid #C8A96E;border-radius:4px;padding:4px 8px;color:#fff;outline:none"/>`
+                  ? `<input class="price-field" data-key="${card.id}HERO" data-def="${card.heroPrice}" value="${getP(card.id+'HERO',card.heroPrice)}" type="number" style="font-family:'Playfair Display',serif;font-size:40px;width:160px;background:#1A1814;border:1px solid #C8A96E;border-radius:4px;padding:4px 8px;color:#fff;outline:none"/>`
                   : `<span class="hero-num">${heroP.toLocaleString()}</span>`
                 }
               </div>
@@ -561,7 +568,7 @@ function render(){
     return`<div class="card ${isOpen?"open":""}">
       <div class="card-head" onclick="toggleCard('${card.id}')">
         <div class="card-left"><span class="card-num">${String(idx+1).padStart(2,"0")}</span><span class="card-name">${card.title}</span></div>
-        <div class="card-right">${card.heroPrice?`<span class="card-min">starting at $${getP(card.id+String('-hero'),card.heroPrice).toLocaleString()}</span>`:""}<span class="card-arrow">▾</span></div>
+        <div class="card-right">${card.heroPrice?`<span class="card-min">starting at $${getP(card.id+'HERO',card.heroPrice).toLocaleString()}</span>`:""}<span class="card-arrow">▾</span></div>
       </div>
       <div class="card-body">${body}</div>
     </div>`;

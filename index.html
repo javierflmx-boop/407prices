@@ -521,19 +521,19 @@ function render(){
         <div class="hero-block">
           <div class="hero-ghost">${card.title[0]}</div>
           <div class="hero-lbl">${card.title} — Complete Package</div>
-          <div class="hero-row">
+        ${(()=>{const heroP=getP(card.id+'-hero',card.heroPrice);return`<div class="hero-row">
             <div>
               <div style="display:flex;align-items:flex-start;gap:2px">
                 <span class="hero-dollar">$</span>
                 ${editMode
                   ? `<input class="price-field" data-key="${card.id}-hero" data-def="${card.heroPrice}" value="${getP(card.id+'-hero',card.heroPrice)}" type="number" style="font-family:'Playfair Display',serif;font-size:40px;width:160px;background:#1A1814;border:1px solid #C8A96E;border-radius:4px;padding:4px 8px;color:#fff;outline:none"/>`
-                  : `<span class="hero-num">${getP(card.id+'-hero',card.heroPrice).toLocaleString()}</span>`
+                  : `<span class="hero-num">${heroP.toLocaleString()}</span>`
                 }
               </div>
               <div class="hero-sub">Labor + materials · firm price</div>
             </div>
-            <button class="hero-addbtn ${pa?"added":""}" data-id="${pk}" data-label="${card.title} complete package" data-price="${getP(card.id+'-hero',card.heroPrice)}" data-color="${card.color}" data-qty="" data-unit="" onclick="handleAdd(this)">${pa?"✓ Added":"+ Add"}</button>
-          </div>
+            <button class="hero-addbtn ${pa?"added":""}" data-id="${pk}" data-label="${card.title} complete package" data-price="${heroP}" data-color="${card.color}" data-qty="" data-unit="" onclick="handleAdd(this)">${pa?"✓ Added":"+ Add"}</button>
+          </div>`;})()}
         </div>
         <div class="sect">Included in package</div>
         ${card.included.map(it=>`<div class="line"><span class="line-label">${it}</span><span class="incl-badge">included</span></div>`).join("")}
@@ -561,7 +561,7 @@ function render(){
     return`<div class="card ${isOpen?"open":""}">
       <div class="card-head" onclick="toggleCard('${card.id}')">
         <div class="card-left"><span class="card-num">${String(idx+1).padStart(2,"0")}</span><span class="card-name">${card.title}</span></div>
-        <div class="card-right">${card.heroPrice?`<span class="card-min">starting at $${getP(card.id+'-hero',card.heroPrice).toLocaleString()}</span>`:""}<span class="card-arrow">▾</span></div>
+        <div class="card-right">${card.heroPrice?`<span class="card-min">starting at $${getP(card.id+String('-hero'),card.heroPrice).toLocaleString()}</span>`:""}<span class="card-arrow">▾</span></div>
       </div>
       <div class="card-body">${body}</div>
     </div>`;

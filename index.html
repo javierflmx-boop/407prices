@@ -238,7 +238,7 @@ function fmt(n,unit){
   if(unit) return "$"+Number(n).toFixed(2)+" "+unit;
   return "$"+Math.round(n).toLocaleString();
 }
-function isAdded(id){return summary.some(s=>s.id===id);}
+function isAdded(id){return summary.some(s=>s.id===id||s.id===id+"-x");}
 let qtyPending=null;
 
 function openQty(id,label,price,color,unit){
@@ -263,11 +263,14 @@ function updateQtyTotal(){
 function confirmQty(){
   if(!qtyPending) return;
   const q=parseFloat(document.getElementById("qtyInput").value)||1;
-  const total=Math.round(q*qtyPending.price);
-  const id=qtyPending.id+"-x"+q;
-  const label=qtyPending.label+(q>1?" × "+q:"");
-  summary=summary.filter(s=>s.id!==qtyPending.id&&!s.id.startsWith(qtyPending.id+"-x"));
-  summary.push({id,label,price:total,color:qtyPending.color});
+  const unitPrice=parseFloat(qtyPending.price)||0;
+  const total=Math.round(q*unitPrice);
+  const id=qtyPending.id+"-x"+Date.now();
+  const label=qtyPending.label+(q>1?" × "+q+" "+qtyPending.unit:"");
+  // Remove any previous entry for this item
+  summary=summary.filter(s=>!s.id.startsWith(qtyPending.id));
+  // Add new entry
+  summary.push({id:qtyPending.id+"-x", label, price:total, color:qtyPending.color||"#C8A96E"});
   closeQty();
   render();
 }
